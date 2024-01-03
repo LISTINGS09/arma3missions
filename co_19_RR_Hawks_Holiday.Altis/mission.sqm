@@ -8,18 +8,18 @@ class EditorData
 	toggles=33;
 	class ItemIDProvider
 	{
-		nextID=16309;
+		nextID=16310;
 	};
 	class LayerIndexProvider
 	{
-		nextID=754;
+		nextID=757;
 	};
 	class Camera
 	{
-		pos[]={11590.837,32.413212,11981.356};
-		dir[]={0.45759937,-0.22555974,0.86007315};
-		up[]={0.10594629,0.97422928,0.19912957};
-		aside[]={0.88282406,0,-0.46970394};
+		pos[]={12416.246,132.77434,15359.707};
+		dir[]={-0.13622838,-0.35658476,-0.92430979};
+		up[]={-0.051996011,0.93425381,-0.35278732};
+		aside[]={-0.98933971,1.0689655e-007,0.14581382};
 	};
 };
 binarizationWanted=0;
@@ -71,10 +71,10 @@ addons[]=
 	"A3_Structures_F_Heli_Civ_Constructions",
 	"A3_Structures_F_EPA_Items_Tools",
 	"A3_Structures_F_Items_Tools",
-	"A3_Characters_F_Enoch",
 	"A3_Structures_F_Mil_BagBunker",
 	"A3_Props_F_Orange_Humanitarian_Supplies",
 	"A3_Structures_F_Heli_Ind_Cargo",
+	"A3_Characters_F_Enoch",
 	"A3_Soft_F_Gamma_Truck_01",
 	"A3_Soft_F_Exp_Truck_01",
 	"A3_Soft_F_Beta_Truck_01",
@@ -772,12 +772,13 @@ class Mission
 			dataType="Logic";
 			class PositionInfo
 			{
-				position[]={12461.697,74.312057,15198.944};
-				angles[]={6.2818484,0,0.0039967569};
+				position[]={12461.697,74.31205,15198.944};
+				angles[]={6.2818413,0,0.0039968039};
 			};
 			name="TSK_RADIOCAMP";
 			id=15757;
 			type="ModuleTaskCreate_F";
+			atlOffset=-7.6293945e-006;
 			class CustomAttributes
 			{
 				class Attribute0
@@ -854,7 +855,7 @@ class Mission
 						class data
 						{
 							singleType="STRING";
-							value="Eliminate all CTRG contacts at the Outpost and destroy the UH-80.<br/><br/><img image='\A3\EditorPreviews_F_Exp\Data\CfgVehicles\B_CTRG_Heli_Transport_01_sand_F.jpg' width='350'/><br/><br/>";
+							value="Eliminate all CTRG contacts at the Outpost and captire the UH-80.<br/><br/><img image='\A3\EditorPreviews_F_Exp\Data\CfgVehicles\B_CTRG_Heli_Transport_01_sand_F.jpg' width='350'/><br/><br/>";
 						};
 					};
 				};
@@ -3105,14 +3106,13 @@ class Mission
 						angles[]={6.2751913,0.87238538,0.0013439035};
 					};
 					side="West";
-					flags=2;
+					flags=6;
 					class Attributes
 					{
 						name="HELI_1G";
 					};
 					id=16075;
 					type="B_helicrew_F";
-					atlOffset=2.1401901;
 				};
 				class Item1
 				{
@@ -3123,12 +3123,12 @@ class Mission
 						angles[]={6.2751913,0.87238538,0.0013439035};
 					};
 					side="West";
+					flags=4;
 					class Attributes
 					{
 					};
 					id=16076;
 					type="B_helicrew_F";
-					atlOffset=2.1401901;
 				};
 			};
 			class Attributes
@@ -3170,26 +3170,24 @@ class Mission
 				};
 			};
 			id=16071;
-			atlOffset=-0.00077819824;
 		};
 		class Item89
 		{
 			dataType="Object";
 			class PositionInfo
 			{
-				position[]={12496.044,75.490166,15195.027};
+				position[]={12496.044,75.490944,15195.027};
 				angles[]={6.2751913,0.87238538,0.0013439035};
 			};
 			side="West";
 			flags=6;
 			class Attributes
 			{
-				lock="UNLOCKED";
+				lock="LOCKED";
 				name="HELI_1";
 			};
 			id=16072;
 			type="B_CTRG_Heli_Transport_01_sand_F";
-			atlOffset=-0.00077819824;
 		};
 		class Item90
 		{
@@ -5950,24 +5948,6 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={12732.201,40.687027,15129.241};
-						angles[]={0,2.0892806,0};
-					};
-					side="West";
-					flags=1;
-					class Attributes
-					{
-						init="this disableAI 'PATH';";
-					};
-					id=16123;
-					type="B_soldier_UGV_02_Science_F";
-					atlOffset=0.67401505;
-				};
-				class Item4
-				{
-					dataType="Object";
-					class PositionInfo
-					{
 						position[]={12731.002,40.688461,15123.844};
 						angles[]={0,1.3038831,0};
 					};
@@ -5980,6 +5960,53 @@ class Mission
 					id=16124;
 					type="B_support_AMort_F";
 					atlOffset=0.84106827;
+				};
+				class Item4
+				{
+					dataType="Object";
+					class PositionInfo
+					{
+						position[]={12732.201,40.686985,15129.24};
+						angles[]={0,2.0892813,0};
+					};
+					side="West";
+					class Attributes
+					{
+						init="this disableAI 'PATH';";
+					};
+					id=16309;
+					type="B_Soldier_TL_F";
+					atlOffset=0.67399979;
+					class CustomAttributes
+					{
+						class Attribute0
+						{
+							property="speaker";
+							expression="_this setspeaker _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="STRING";
+									value="Male11ENG";
+								};
+							};
+						};
+						class Attribute1
+						{
+							property="pitch";
+							expression="_this setpitch _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="SCALAR";
+									value=1.03;
+								};
+							};
+						};
+						nAttributes=2;
+					};
 				};
 			};
 			class Attributes
