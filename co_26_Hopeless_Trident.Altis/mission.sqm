@@ -16,18 +16,18 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=499;
+		nextID=525;
 	};
 	class Camera
 	{
-		pos[]={16983.623,56.09444,12780.448};
-		dir[]={0.56398803,-0.73397005,0.37842518};
-		up[]={0.60948372,0.67918175,0.40895191};
-		aside[]={0.5571779,0,-0.8303932};
+		pos[]={16650.803,43.303776,12234.067};
+		dir[]={0.32679623,-0.51296937,0.79378241};
+		up[]={0.19528785,0.85840362,0.47435024};
+		aside[]={0.92471653,4.7497451e-008,-0.38070366};
 	};
 };
 binarizationWanted=0;
-sourceName="co26_HopelessTrident";
+sourceName="co_26_Hopeless_Trident";
 addons[]=
 {
 	"A3_Modules_F_Intel",
@@ -599,10 +599,11 @@ class Mission
 			dataType="Object";
 			class PositionInfo
 			{
-				position[]={16664.508,7.3832407,12290.342};
+				position[]={16664.775,7.3841677,12290.472};
 				angles[]={0,0.0061959187,0};
 			};
 			side="Empty";
+			flags=4;
 			class Attributes
 			{
 				init="[this, " \n """Search Files"", " \n """\a3\ui_f\data\IGUI\Cfg\simpleTasks\types\documents_ca.paa"", " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_search_ca.paa"", " \n """(_target getVariable ['var_canSearch',false]) && _this distance2d _target < 3"", " \n """(_target getVariable ['var_canSearch',false]) && _caller distance2d _target < 3"", " \n "{}, " \n "{parseText format[""<br/><img size='2' image='\a3\ui_f\data\IGUI\Cfg\simpleTasks\types\documents_ca.paa'/><br/><t size='1.5'>Find Documents</t><br/><br/><t size='1.5' color='#FFFF00'>Searching</t><br/><t color='#FFFF00'>(%2)</t><br/><br/><t size='1.25' color='#CCCCCC'>%1&#37; Complete</t><br/><br/>"",round ((_this select 4) * 4.16),name _caller] remoteExec [""hintSilent""]}, " \n "{parseText format[""<br/><img size='2' image='\a3\ui_f\data\IGUI\Cfg\simpleTasks\types\documents_ca.paa'/><br/><t size='1.5'>Find Documents</t><br/><br/><t size='1.5' color='#00FF00'>Collected</t><br/><t color='#00FF00'>(%1)</t><br/><br/><br/><br/>"",name _caller] remoteExec [""hintSilent""]; _target setVariable [""var_canSearch"",false,true]; missionNamespace setVariable [""var_gotDocument"",true,true]; sleep 5; """" remoteExec [""hintSilent""]},  " \n "{parseText format[""<br/><img size='2' image='\a3\ui_f\data\IGUI\Cfg\simpleTasks\types\documents_ca.paa'/><br/><t size='1.5'>Find Documents</t><br/><br/><t size='1.5' color='#FF0000'>Aborted</t><br/><t color='#FF0000'>(%1)</t><br/><br/><br/><br/>"",name _caller] remoteExec [""hintSilent""]},  " \n "[],  " \n "15,  " \n "10] call bis_fnc_holdActionAdd;";
@@ -610,7 +611,24 @@ class Mission
 			};
 			id=2919;
 			type="Land_TableDesk_F";
-			atlOffset=3.3331699;
+			atlOffset=0.00011634827;
+			class CustomAttributes
+			{
+				class Attribute0
+				{
+					property="allowDamage";
+					expression="_this allowdamage _value;";
+					class Value
+					{
+						class data
+						{
+							singleType="BOOL";
+							value=0;
+						};
+					};
+				};
+				nAttributes=1;
+			};
 		};
 		class Item4
 		{
@@ -12424,7 +12442,7 @@ class Mission
 			flags=1;
 			id=10938;
 			type="ModuleHideTerrainObjects_F";
-			atlOffset=8.4853411;
+			atlOffset=8.4852915;
 			class CustomAttributes
 			{
 				class Attribute0
@@ -23752,7 +23770,7 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={16664.314,6.9898701,12290.964};
+						position[]={16665.186,6.979228,12292.158};
 						angles[]={0,2.3561945,0};
 					};
 					side="West";
@@ -23763,7 +23781,6 @@ class Mission
 					};
 					id=11919;
 					type="B_soldier_AR_F";
-					atlOffset=0.010642052;
 				};
 				class Item1
 				{

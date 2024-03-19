@@ -21,7 +21,7 @@ if (side group player != CIVILIAN) then {
 	<br/>Your squad will consist of infantry, a dedicated UAV specialist, and an explosives specialist.
 	<br/>
     <br/><font color='#FF7F00'>Reconnaissance</font>
-	<br/>Once on the ground, your squad will move to OP Bravo, a concealed observation post located on a hill overlooking the CSAT camp. The marksman will provide overwatch while the rest of the team conducts reconnaissance of the camp. You must confirm the presence of at least two Tempest repair trucks before proceeding.
+	<br/>Once on the ground, your squad will move to chosen observation post overlooking the CSAT camp. You must confirm the presence of at least two Tempest repair trucks before proceeding.
 	<br/>
     <br/><font color='#FF7F00'>Stealth Approach</font>
 	<br/>If the Tempest repair trucks are confirmed to be present, proceed with a stealthy approach to the camp. Avoid direct engagement with the enemy until you reach the vehicles.

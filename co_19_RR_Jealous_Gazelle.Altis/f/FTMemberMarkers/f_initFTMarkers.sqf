@@ -61,7 +61,7 @@ _f_fnc_drawFTMarker = {
 		// No text if we're zoomed out.
 		if (ctrlMapScale (_this#0) > 0.02) then { _text = "" };
 		
-		if (_iconShape != "") then {
+		if (_iconShape != "" && alive _x) then {
 			(_this select 0) drawIcon
 			[
 				_iconShape,

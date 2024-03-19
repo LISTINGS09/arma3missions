@@ -5,10 +5,10 @@ class EditorData
 	angleGridStep=0.08726646;
 	scaleGridStep=1;
 	autoGroupingDist=10;
-	toggles=33;
+	toggles=161;
 	class ItemIDProvider
 	{
-		nextID=18175;
+		nextID=18176;
 	};
 	class LayerIndexProvider
 	{
@@ -275,7 +275,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=93;
+		items=94;
 		class Item0
 		{
 			dataType="Object";
@@ -1391,8 +1391,8 @@ class Mission
 					class Attributes
 					{
 						skill=1;
-						init="removeFromRemainsCollector [this];" \n "[this,   " \n "format[""Verify <t color='#72E500'>%1</t>"", name this],   " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_Kill_ca.paa"",   " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_Kill_ca.paa"",   " \n """_this distance2d _target < 3 && !alive _target && !(_target getVariable ['var_verified', false])"",   " \n """_caller distance2d _target < 3"",   " \n "{},   " \n "{},   " \n "{ " \n " _target setVariable [""var_done"", true, true]; " \n " _caller playAction ""PutDown""; " \n "},    " \n "{},    " \n "[],    " \n "1,    " \n "10] call bis_fnc_holdActionAdd;";
-						name="VERIFY_2";
+						init="this disableAI ""PATH""; removeFromRemainsCollector [this];" \n "[this,   " \n "format[""Verify <t color='#72E500'>%1</t>"", name this],   " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_Kill_ca.paa"",   " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_Kill_ca.paa"",   " \n """_this distance2d _target < 3 && !alive _target && !(_target getVariable ['var_verified', false])"",   " \n """_caller distance2d _target < 3"",   " \n "{},   " \n "{},   " \n "{ " \n " _target setVariable [""var_done"", true, true]; " \n " _caller playAction ""PutDown""; " \n "},    " \n "{},    " \n "[],    " \n "1,    " \n "10] call bis_fnc_holdActionAdd;";
+						name="VERIFY_1";
 						class Inventory
 						{
 							class primaryWeapon
@@ -4822,6 +4822,20 @@ class Mission
 			};
 			id=18170;
 			atlOffset=-2.3841858e-007;
+		};
+		class Item93
+		{
+			dataType="Logic";
+			class PositionInfo
+			{
+				position[]={22600,13.76001,16800};
+				angles[]={0.020001473,0,6.2605309};
+			};
+			areaSize[]={800,0,800};
+			areaIsRectangle=1;
+			flags=1;
+			id=18175;
+			type="ModuleCoverMap_F";
 		};
 	};
 	class Connections

@@ -247,7 +247,7 @@ FAR_fnc_SetUnconscious = {
 	_unit setUnconscious true;
 		
 	_rand = (floor random 18) + 1;
-	playSound3D [format["A3\sounds_f\characters\human-sfx\P%1\Hit_Max_%2.wss", format["0%1",_rand] select [(count format["0%1",_rand]) - 2,2], ceil random 5], _unit, false, getPosASL _unit, 1.5, 1, 50];
+	playSound3D [format["A3\sounds_f\characters\human-sfx\P%1\Hit_Max_%2.wss", format["0%1",_rand] select [(count format["0%1",_rand]) - 2,2], (floor random 3) + 1], _unit, false, getPosASL _unit, 1.5, 1, 50];
 	
 	_unit setCaptive true;
 	_unit setDamage 0;
@@ -264,8 +264,8 @@ FAR_fnc_SetUnconscious = {
 			[_unit, "unconscious"] remoteExecCall ["playActionNow"];
 		};
 	} else {
-		waitUntil { sleep 1; velocity _unit isEqualTo [0,0,0] };
-		sleep 1;
+		waitUntil { uiSleep 1; { ((velocity _unit)#0) isEqualTo 0 && ((velocity _unit)#1) isEqualTo 0 } };
+		uiSleep 1;
 		_unit switchMove "unconsciousReviveDefault";
 	};
 	
@@ -277,7 +277,7 @@ FAR_fnc_SetUnconscious = {
 	// Casualty Count Update.
 	_unit spawn {
 		if (time < 60) exitWith {};
-		sleep random 5;
+		uiSleep random 5;
 		[group _this] remoteExecCall ["f_fnc_updateCas", 2];
 	};
 	
@@ -389,8 +389,14 @@ FAR_fnc_SetUnconscious = {
 			alive _unit && lifeState _unit == "INCAPACITATED"
 		} do {
 			if (isPlayer _unit) then  {		
-				hintSilent format["You have been stabilized\n\n%1", call FAR_fnc_CheckFriendlies];	
+				hintSilent format["You have been stabilized\n\n%1", call FAR_fnc_CheckFriendlies];				
 			};
+			
+			if !(headgear _unit in ["H_HeadBandage_clean_F","H_HeadBandage_stained_F","H_HeadBandage_bloody_F"]) then {
+				_unit setVariable ["FAR_var_headgear", headgear _unit];
+				_unit addHeadgear selectRandom ["H_HeadBandage_clean_F","H_HeadBandage_stained_F","H_HeadBandage_bloody_F"];
+			};
+			
 			// Handle stuck dragging player D/C
 			if ((_unit getVariable ["FAR_var_isDragged", false]) &&
 				!isNull (attachedTo _unit) &&
@@ -428,10 +434,18 @@ FAR_fnc_SetUnconscious = {
 		_unit setCaptive false;
 		_unit allowDamage true;
 		_unit setDamage 1;
+		
+		_rand = (floor random 11) + 1;
+		playSound3D [format["a3\dubbing_radio_f\data\eng\male%1eng\radioprotocoleng\combat\200_combatshouts\screaminge_%2.ogg", format["0%1",_rand] select [(count format["0%1",_rand]) - 2,2], (floor random 3) + 1], _unit, false, getPosASL _unit, 1.5, 1, 50];
 	} else {	
 		// Player got revived		
 		if (isPlayer _unit) then { ["Terminate"] call BIS_fnc_EGSpectator };
 		uiSleep 2;
+		
+		if (headgear _unit in ["H_HeadBandage_clean_F","H_HeadBandage_stained_F","H_HeadBandage_bloody_F"]) then {
+			removeHeadgear _unit;
+			if (_unit getVariable ["FAR_var_headgear", ""] != "") then { _unit addHeadgear (_unit getVariable "FAR_var_headgear") };
+		};
 		
 		// Clear the "medic nearby" hint
 		hintSilent "";
@@ -441,7 +455,7 @@ FAR_fnc_SetUnconscious = {
 		_unit setCaptive false;
 		_unit setUnconscious false;
 		
-		uiSleep 1;
+		uiSleep 1;		
 		
 		_unit playAction "Stop";
 		
@@ -696,7 +710,7 @@ FAR_fnc_Bag = {
 	
 	// Looking at weapons holder - Find the body.
 	if !(lifeState _cursorTarget in ['DEAD','DEAD-RESPAWN'] && !(_cursorTarget isKindOf "CAManBase")) then {
-		_cursorTarget = (_caller nearObjects ["CAManBase", 2.5] select { lifeState _x in ['DEAD','DEAD-RESPAWN'] }) # 0;
+		_cursorTarget = (_caller nearObjects ["CAManBase", 2.5] select { lifeState _x in ['DEAD','DEAD-RESPAWN'] && !(isObjectHidden _x) }) # 0;
 	};
 	
 	// Exit if we lost the body!

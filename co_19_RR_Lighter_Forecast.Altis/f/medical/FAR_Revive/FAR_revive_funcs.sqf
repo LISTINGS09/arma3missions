@@ -264,8 +264,8 @@ FAR_fnc_SetUnconscious = {
 			[_unit, "unconscious"] remoteExecCall ["playActionNow"];
 		};
 	} else {
-		waitUntil { sleep 1; velocity _unit isEqualTo [0,0,0] };
-		sleep 1;
+		waitUntil { uiSleep 1; (((velocity _unit)#0) isEqualTo 0 && ((velocity _unit)#1) isEqualTo 0) };
+		uiSleep 1;
 		_unit switchMove "unconsciousReviveDefault";
 	};
 	
@@ -277,7 +277,7 @@ FAR_fnc_SetUnconscious = {
 	// Casualty Count Update.
 	_unit spawn {
 		if (time < 60) exitWith {};
-		sleep random 5;
+		uiSleep random 5;
 		[group _this] remoteExecCall ["f_fnc_updateCas", 2];
 	};
 	

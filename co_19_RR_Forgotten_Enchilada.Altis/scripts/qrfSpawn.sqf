@@ -1,5 +1,5 @@
 /*
-	Author: 2600K / Josef Zemanek v1.36
+	Author: 2600K / Josef Zemanek v1.37
 
 	Description:
 	Enemy Reinforcements Spawner
@@ -519,7 +519,7 @@ for [{_wave = 1}, {_wave < _waveMax}, {_wave = _wave + 1}] do {
 	diag_log text format["[QRF] Spawning - Wave %1/%2", _wave, _waveMax];
 	
 	switch (_wave) do {
-		case 1;2;3: {
+		case 1; case 2; case 3: {
 			[_location, _spawnLand, _side, 4] call zmm_fnc_spawnUnit;
 		};
 		case 4: {
