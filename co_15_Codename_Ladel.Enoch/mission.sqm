@@ -5,7 +5,7 @@ class EditorData
 	angleGridStep=0.08726646;
 	scaleGridStep=1;
 	autoGroupingDist=10;
-	toggles=1;
+	toggles=129;
 	class ItemIDProvider
 	{
 		nextID=6119;
@@ -16,7 +16,7 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=29;
+		nextID=33;
 	};
 	class Camera
 	{
@@ -5961,11 +5961,11 @@ class Mission
 		class Item129
 		{
 			dataType="Trigger";
-			position[]={5670.084,276.30563,1454.1283};
+			position[]={5670.084,276.30563,1454.1281};
 			class Attributes
 			{
 				name="TR_VEHDEAD_1";
-				condition="!alive HVV_1";
+				condition="!alive HVV_1 && !alive HVV_2 && !alive HVV_3";
 				sizeA=0;
 				sizeB=0;
 				timeout[]={3,3,3};
@@ -5976,7 +5976,6 @@ class Mission
 			};
 			id=6017;
 			type="EmptyDetector";
-			atlOffset=3.0517578e-005;
 		};
 		class Item130
 		{
@@ -7000,11 +6999,11 @@ class Mission
 		class Item144
 		{
 			dataType="Trigger";
-			position[]={5671.1313,277.11368,1447.1674};
+			position[]={5671.1309,277.11365,1447.167};
 			class Attributes
 			{
 				name="TR_VEHDEAD";
-				condition="!alive HVV_1 && !alive HVV_2 && !alive HVV_3";
+				condition="!alive HVV_1";
 				sizeA=0;
 				sizeB=0;
 				timeout[]={3,3,3};
@@ -7015,7 +7014,6 @@ class Mission
 			};
 			id=6044;
 			type="EmptyDetector";
-			atlOffset=3.0517578e-005;
 		};
 		class Item145
 		{

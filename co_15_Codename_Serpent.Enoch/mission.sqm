@@ -5,7 +5,7 @@ class EditorData
 	angleGridStep=0.08726646;
 	scaleGridStep=1;
 	autoGroupingDist=10;
-	toggles=1;
+	toggles=129;
 	class ItemIDProvider
 	{
 		nextID=6113;
@@ -16,14 +16,14 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=26;
+		nextID=30;
 	};
 	class Camera
 	{
 		pos[]={4418.1509,171.12,6666.9551};
 		dir[]={0,-0.70710683,0.70710683};
 		up[]={0,0.70710677,0.70710677};
-		aside[]={0.99999994,0,-0};
+		aside[]={0.99999994,0,0};
 	};
 };
 binarizationWanted=0;
@@ -1019,7 +1019,7 @@ class Mission
 					class PositionInfo
 					{
 						position[]={4418.1768,146.12143,6684.6274};
-						angles[]={-0,5.497788,0};
+						angles[]={0,5.497788,0};
 					};
 					side="West";
 					flags=6;
@@ -1071,7 +1071,7 @@ class Mission
 					class PositionInfo
 					{
 						position[]={4421.0054,146.12143,6684.6274};
-						angles[]={-0,5.4977875,0};
+						angles[]={0,5.4977875,0};
 					};
 					side="West";
 					flags=4;
@@ -1091,7 +1091,7 @@ class Mission
 					class PositionInfo
 					{
 						position[]={4418.1768,146.12143,6681.7988};
-						angles[]={-0,5.4977875,0};
+						angles[]={0,5.4977875,0};
 					};
 					side="West";
 					flags=4;
@@ -7477,11 +7477,11 @@ class Mission
 		class Item233
 		{
 			dataType="Trigger";
-			position[]={11313.136,80.764648,1396.4983};
+			position[]={11313.136,80.764656,1396.498};
 			class Attributes
 			{
 				name="TR_VEHDEAD_1";
-				condition="!alive HVV_1";
+				condition="!alive HVV_1 && !alive HVV_2 && !alive HVV_3";
 				sizeA=0;
 				sizeB=0;
 				timeout[]={3,3,3};
@@ -8506,11 +8506,11 @@ class Mission
 		class Item248
 		{
 			dataType="Trigger";
-			position[]={11314.184,80.872482,1389.5374};
+			position[]={11314.184,80.872498,1389.537};
 			class Attributes
 			{
 				name="TR_VEHDEAD";
-				condition="!alive HVV_1 && !alive HVV_2 && !alive HVV_3";
+				condition="!alive HVV_1";
 				sizeA=0;
 				sizeB=0;
 				timeout[]={3,3,3};

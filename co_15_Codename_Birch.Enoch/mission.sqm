@@ -5,7 +5,7 @@ class EditorData
 	angleGridStep=0.08726646;
 	scaleGridStep=1;
 	autoGroupingDist=10;
-	toggles=1;
+	toggles=129;
 	class ItemIDProvider
 	{
 		nextID=6156;
@@ -16,7 +16,7 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=28;
+		nextID=32;
 	};
 	class Camera
 	{
@@ -1617,7 +1617,7 @@ class Mission
 					class PositionInfo
 					{
 						position[]={4417.6367,146.12143,6684.8628};
-						angles[]={-0,5.497788,0};
+						angles[]={0,5.497788,0};
 					};
 					side="West";
 					flags=6;
@@ -1669,7 +1669,7 @@ class Mission
 					class PositionInfo
 					{
 						position[]={4420.4653,146.12143,6684.8628};
-						angles[]={-0,5.4977875,0};
+						angles[]={0,5.4977875,0};
 					};
 					side="West";
 					flags=4;
@@ -1689,7 +1689,7 @@ class Mission
 					class PositionInfo
 					{
 						position[]={4417.6367,146.12143,6682.0342};
-						angles[]={-0,5.4977875,0};
+						angles[]={0,5.4977875,0};
 					};
 					side="West";
 					flags=4;
@@ -9349,7 +9349,7 @@ class Mission
 			class Attributes
 			{
 				name="TR_VEHDEAD_1";
-				condition="!alive HVV_1";
+				condition="!alive HVV_1 && !alive HVV_2 && !alive HVV_3";
 				sizeA=0;
 				sizeB=0;
 				timeout[]={3,3,3};
@@ -10314,7 +10314,7 @@ class Mission
 			class Attributes
 			{
 				name="TR_VEHDEAD";
-				condition="!alive HVV_1 && !alive HVV_2 && !alive HVV_3";
+				condition="!alive HVV_1";
 				sizeA=0;
 				sizeB=0;
 				timeout[]={3,3,3};

@@ -5,7 +5,7 @@ class EditorData
 	angleGridStep=0.08726646;
 	scaleGridStep=1;
 	autoGroupingDist=10;
-	toggles=1;
+	toggles=129;
 	class ItemIDProvider
 	{
 		nextID=6246;
@@ -16,7 +16,7 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=32;
+		nextID=38;
 	};
 	class Camera
 	{
@@ -1063,7 +1063,7 @@ class Mission
 					class PositionInfo
 					{
 						position[]={4417.3423,146.12143,6683.1196};
-						angles[]={-0,5.497788,0};
+						angles[]={0,5.497788,0};
 					};
 					side="West";
 					flags=6;
@@ -1115,7 +1115,7 @@ class Mission
 					class PositionInfo
 					{
 						position[]={4420.1709,146.12143,6683.1196};
-						angles[]={-0,5.4977875,0};
+						angles[]={0,5.4977875,0};
 					};
 					side="West";
 					flags=4;
@@ -1135,7 +1135,7 @@ class Mission
 					class PositionInfo
 					{
 						position[]={4417.3423,146.12143,6680.291};
-						angles[]={-0,5.4977875,0};
+						angles[]={0,5.4977875,0};
 					};
 					side="West";
 					flags=4;
@@ -6608,6 +6608,7 @@ class Mission
 			};
 			id=5311;
 			type="B_T_APC_Wheeled_01_cannon_F";
+			atlOffset=1.5258789e-005;
 			class CustomAttributes
 			{
 				class Attribute0
@@ -10684,11 +10685,11 @@ class Mission
 		class Item352
 		{
 			dataType="Trigger";
-			position[]={3598.0166,71.562996,10171.36};
+			position[]={3598.0171,71.563019,10171.36};
 			class Attributes
 			{
 				name="TR_VEHDEAD_1";
-				condition="!alive HVV_1";
+				condition="!alive HVV_1 && !alive HVV_2 && !alive HVV_3";
 				sizeA=0;
 				sizeB=0;
 				timeout[]={3,3,3};
@@ -11677,11 +11678,11 @@ class Mission
 		class Item365
 		{
 			dataType="Trigger";
-			position[]={3599.0635,71.388748,10164.399};
+			position[]={3599.063,71.388725,10164.399};
 			class Attributes
 			{
 				name="TR_VEHDEAD";
-				condition="!alive HVV_1 && !alive HVV_2 && !alive HVV_3";
+				condition="!alive HVV_1";
 				sizeA=0;
 				sizeB=0;
 				timeout[]={3,3,3};

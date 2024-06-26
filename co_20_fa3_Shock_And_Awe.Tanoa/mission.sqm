@@ -8,7 +8,7 @@ class EditorData
 	toggles=1;
 	class ItemIDProvider
 	{
-		nextID=3037;
+		nextID=3039;
 	};
 	class MarkerIDProvider
 	{
@@ -16,10 +16,10 @@ class EditorData
 	};
 	class Camera
 	{
-		pos[]={11709.588,40.15657,3088.0134};
-		dir[]={0.10333899,-0.2672534,-0.9581086};
-		up[]={0.028660497,0.96361774,-0.26572821};
-		aside[]={-0.99427044,4.6640343e-007,-0.1072414};
+		pos[]={7057.0811,47.296955,7740.812};
+		dir[]={-0.095511839,-0.29849175,-0.94962978};
+		up[]={-0.029871542,0.95441061,-0.29700044};
+		aside[]={-0.99498785,-2.6472844e-007,0.1000745};
 	};
 };
 binarizationWanted=0;
@@ -52,7 +52,8 @@ addons[]=
 	"A3_Structures_F_Civ_Camping",
 	"A3_Structures_F_EPA_Mil_Scrapyard",
 	"A3_Structures_F_Furniture",
-	"A3_Modules_F_Curator_Misc"
+	"A3_Modules_F_Curator_Misc",
+	"A3_Modules_F_Multiplayer"
 };
 class AddonsMetaData
 {
@@ -431,7 +432,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=163;
+		items=164;
 		class Item0
 		{
 			dataType="Object";
@@ -463,7 +464,7 @@ class Mission
 			class Attributes
 			{
 				lock="LOCKED";
-				init="this addAction [""Unlock LSV"",{[_this select 0, false] remoteExec [""lock"",this select 0]},nil,6,true,true,"""",""locked this == 2""];";
+				init="this addAction [""Unlock LSV"",{[_this select 0, false] remoteExec [""lock"",this select 0]},nil,6,true,true,"""",""locked _target == 2""];";
 				name="lsv1";
 			};
 			id=2476;
@@ -482,7 +483,7 @@ class Mission
 			class Attributes
 			{
 				lock="LOCKED";
-				init="this addAction [""Unlock LSV"",{[_this select 0, false] remoteExec [""lock"",this select 0]},nil,6,true,true,"""",""locked this == 2""];";
+				init="this addAction [""Unlock LSV"",{[_this select 0, false] remoteExec [""lock"",this select 0]},nil,6,true,true,"""",""locked _target == 2""];";
 				name="lsv3";
 			};
 			id=2477;
@@ -501,7 +502,7 @@ class Mission
 			class Attributes
 			{
 				lock="LOCKED";
-				init="this addAction [""Unlock LSV"",{[_this select 0, false] remoteExec [""lock"",this select 0]},nil,6,true,true,"""",""locked this == 2""];";
+				init="this addAction [""Unlock LSV"",{[_this select 0, false] remoteExec [""lock"",this select 0]},nil,6,true,true,"""",""locked _target == 2""];";
 				name="lsv2";
 			};
 			id=2478;
@@ -513,7 +514,7 @@ class Mission
 			dataType="Object";
 			class PositionInfo
 			{
-				position[]={11636.81,5.9520049,2974.321};
+				position[]={11636.81,5.9530048,2974.321};
 				angles[]={6.2485409,2.2723315,0.021327924};
 			};
 			side="Empty";
@@ -521,12 +522,11 @@ class Mission
 			class Attributes
 			{
 				lock="LOCKED";
-				init="this addAction [""Unlock LSV"",{[_this select 0, false] remoteExec [""lock"",this select 0]},nil,6,true,true,"""",""locked this == 2""];";
+				init="this addAction [""Unlock LSV"",{[_this select 0, false] remoteExec [""lock"",this select 0]},nil,6,true,true,"""",""locked _target == 2""];";
 				name="lsv4";
 			};
 			id=2479;
 			type="O_LSV_02_armed_F";
-			atlOffset=-0.00099992752;
 		};
 		class Item5
 		{
@@ -5616,6 +5616,171 @@ class Mission
 			name="respawn_west";
 			type="b_hq";
 			id=3036;
+		};
+		class Item163
+		{
+			dataType="Logic";
+			class PositionInfo
+			{
+				position[]={7049.1201,2.6600001,7720.5698};
+			};
+			id=3038;
+			type="ModuleRespawnVehicle_F";
+			class CustomAttributes
+			{
+				class Attribute0
+				{
+					property="ModuleRespawnVehicle_F_ForcedRespawn";
+					expression="_this setVariable ['ForcedRespawn',_value,true];";
+					class Value
+					{
+						class data
+						{
+							singleType="STRING";
+							value="0";
+						};
+					};
+				};
+				class Attribute1
+				{
+					property="ModuleRespawnVehicle_F_Init";
+					expression="_this setVariable ['Init',_value,true];";
+					class Value
+					{
+						class data
+						{
+							singleType="STRING";
+							value="";
+						};
+					};
+				};
+				class Attribute2
+				{
+					property="ModuleRespawnVehicle_F_RespawnWhenDisabled";
+					expression="_this setVariable ['RespawnWhenDisabled',_value,true];";
+					class Value
+					{
+						class data
+						{
+							singleType="BOOL";
+							value=1;
+						};
+					};
+				};
+				class Attribute3
+				{
+					property="ModuleRespawnVehicle_F_DesertedDistance";
+					expression="_this setVariable ['DesertedDistance',_value,true];";
+					class Value
+					{
+						class data
+						{
+							singleType="STRING";
+							value="";
+						};
+					};
+				};
+				class Attribute4
+				{
+					property="ModuleRespawnVehicle_F_PositionType";
+					expression="_this setVariable ['PositionType',_value,true];";
+					class Value
+					{
+						class data
+						{
+							singleType="STRING";
+							value="0";
+						};
+					};
+				};
+				class Attribute5
+				{
+					property="ModuleRespawnVehicle_F_RespawnCount";
+					expression="_this setVariable ['RespawnCount',_value,true];";
+					class Value
+					{
+						class data
+						{
+							singleType="STRING";
+							value="";
+						};
+					};
+				};
+				class Attribute6
+				{
+					property="ModuleRespawnVehicle_F_Position";
+					expression="_this setVariable ['Position',_value,true];";
+					class Value
+					{
+						class data
+						{
+							singleType="STRING";
+							value="0";
+						};
+					};
+				};
+				class Attribute7
+				{
+					property="ModuleRespawnVehicle_F_Wreck";
+					expression="_this setVariable ['Wreck',_value,true];";
+					class Value
+					{
+						class data
+						{
+							singleType="STRING";
+							value="2";
+						};
+					};
+				};
+				class Attribute8
+				{
+					property="ModuleRespawnVehicle_F_Delay";
+					expression="_this setVariable ['Delay',_value,true];";
+					class Value
+					{
+						class data
+						{
+							singleType="STRING";
+							value="";
+						};
+					};
+				};
+				class Attribute9
+				{
+					property="ModuleRespawnVehicle_F_ShowNotification";
+					expression="_this setVariable ['ShowNotification',_value,true];";
+					class Value
+					{
+						class data
+						{
+							singleType="STRING";
+							value="1";
+						};
+					};
+				};
+				nAttributes=10;
+			};
+		};
+	};
+	class Connections
+	{
+		class LinkIDProvider
+		{
+			nextID=1;
+		};
+		class Links
+		{
+			items=1;
+			class Item0
+			{
+				linkID=0;
+				item0=2475;
+				item1=3038;
+				class CustomData
+				{
+					type="Sync";
+				};
+			};
 		};
 	};
 };
