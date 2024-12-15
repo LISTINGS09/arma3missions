@@ -30,7 +30,7 @@ _uidList = ["76561197970695190"]; // 2600K
 
 // Get Author ID if present
 if (!isNil "f_var_AuthorUID") then {
-	_uidList pushBack f_var_AuthorUID;
+	_uidList pushBackUnique f_var_AuthorUID;
 };
 
 // Get Server Admin List if present (f_zeusAdminNames from f\common\fn_processParamsArray.sqf)
@@ -48,15 +48,8 @@ if (serverCommandAvailable "#kick" || !isMultiplayer || _incAdmin) then {
 	["briefing.sqf","Briefing for admin included","DEBUG"] call f_fnc_logIssue;
 };
 
-player createDiaryRecord ["Diary", ["",""]];
-
-//player removeDiaryRecord ["Diary", "Administration"];
-//player removeDiaryRecord ["Diary", "Mission"];
-
 // Briefing from mission file
 #include "..\..\mission\briefing.sqf";
-
-player createDiaryRecord ["Diary", ["",""]];
 
 // Default non-commanders to group, commanders to side.
 if (leader player == player) then { setCurrentChannel 1 } else { setCurrentChannel 3 };
