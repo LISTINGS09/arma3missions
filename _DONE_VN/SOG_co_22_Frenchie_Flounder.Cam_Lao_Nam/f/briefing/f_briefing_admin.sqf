@@ -207,9 +207,11 @@ _missionDebug = "<font size='18' color='#80FF00'>DEBUG OPTIONS</font><br/><br/>
 <br/>
 <execute expression=""systemChat 'Click on Map to teleport'; player onMapSingleClick {player setPos _pos; openMap false; onMapSingleClick ''; true;};"">Map Click Teleport</execute><br/>
 <br/>
-<execute expression=""[] call fnc_AdminTasking;"">Show Task Control</execute><br/>
+<execute expression=""systemChat 'Generating Task List'; [] call fnc_AdminTasking;"">Show Task Control</execute><br/>
 <br/>
-Reveal Players to AI: 
+Spectator <execute expression=""f_var_isAdmin = true; [true] call f_fnc_spectateInit;"">Start</execute> | <execute expression=""[false] call f_fnc_spectateInit;"">Stop</execute><br/>
+<br/>
+Reveal Players to AI (Fair): 
 <execute expression=""systemChat 'Starting Reveal'; 
 { f_var_doReveal = true;
 	while {	f_var_doReveal } do { 
@@ -222,6 +224,19 @@ Reveal Players to AI:
 	}; 
 } remoteExec ['BIS_fnc_spawn', 0];"">Start</execute>
  | <execute expression=""systemChat 'Stopping Reveal'; missionNamespace setVariable ['f_var_doReveal', false, true];"">Stop</execute><br/>
+Reveal Players to AI (Everyone): 
+<execute expression=""systemChat 'Starting Reveal'; 
+{ f_var_doRevealAll = true;
+	diag_log '';
+	while {	f_var_doRevealAll } do { 
+		sleep 120; 
+		{ 
+			private _rGrp = _x; 
+			{ if (_rGrp knowsAbout _x < 4) then { _rGrp reveal [_x, 4] } } forEach allPlayers;
+		} forEach (allGroups select { !isPlayer leader _x });
+	}; 
+} remoteExec ['BIS_fnc_spawn', 0];"">Start</execute>
+ | <execute expression=""systemChat 'Stopping Reveal'; missionNamespace setVariable ['f_var_doRevealAll', false, true];"">Stop</execute><br/>
 <br/>
 <execute expression=""[player, { if (count (missionNamespace getVariable ['f_var_missionLog',[]]) > 0) then { [_this,['Diary', ['** ISSUES (Server) **', format['%1<br/>', f_var_missionLog joinString '<br/>']]]] remoteExec ['createDiaryRecord',_this]; } else { 'Server Issue log has no entries!' remoteExec ['systemChat',_this]; } }] remoteExec ['bis_fnc_spawn', 0];"">Server Issues List</execute><br/>
 <br/>
@@ -231,6 +246,7 @@ Uses diag_activeSQFScripts to list all running SQF Scripts to your LOCAL report.
 <execute expression=""[[true],'f\misc\f_debug.sqf'] remoteExec ['BIS_fnc_execVM',2];hintSilent 'Starting Debug';"">Checking Script</execute><br/>
 This performs a basic check for any mission related logic issues and problems. It is automatically called at the start of the mission in single player.<br/>
 <br/>
+
 Map Border: <execute expression=""{ if (['zao_',_x] call BIS_fnc_inString) then { _x setMarkerAlphaLocal 0 } } forEach allMapMarkers;"">Hide</execute> |
 <execute expression=""{ if (['zao_',_x] call BIS_fnc_inString) then { _x setMarkerAlphaLocal 1 } } forEach allMapMarkers;"">Show</execute> |
 <execute expression=""{ if (['zao_',_x] call BIS_fnc_inString) then { _x setMarkerAlpha 0 } } forEach allMapMarkers;"">Hide (Global)</execute> | 
@@ -241,7 +257,7 @@ Map Border: <execute expression=""{ if (['zao_',_x] call BIS_fnc_inString) then 
 player createDiaryRecord ["ZeuAdmin", ["Debug",_missionDebug]];
 
 // GEAR
-private _missionGear = "<font size='16' color='#80FF00'>Gear</font><br/>If you are NOT in a vehicle, the vehicle or box you are looking at will attempt to be used. Otherwise, a crate will be spawned according to the spawn mode.<br/><br/>";
+private _missionGear = "<font size='16' color='#80FF00'>Gear</font><br/>If you are in a vehicle, the vehicle will be used! If you are looking at a box then that will attempt to be used. Otherwise, a crate will be spawned according to the spawn mode.<br/><br/>";
 
 _missionGear = _missionGear + "
 Spawn Mode: <execute expression=""missionNamespace setVariable ['var_dropAmmo',false]; systemChat 'Spawn Mode: At Feet';"">At Feet</execute> | <execute expression=""missionNamespace setVariable ['var_dropAmmo',true]; systemChat 'Spawn Mode: Air Drop';"">Air Dropped</execute><br/><br/>
@@ -265,7 +281,7 @@ Spawn Mode: <execute expression=""missionNamespace setVariable ['var_dropAmmo',f
 	if (isNull _gearTarget) then { _gearTarget = createVehicle ['Box_Syndicate_Ammo_F', player modelToWorld [0,2,0], [], 0, 'NONE']; if (missionNamespace getVariable ['var_dropAmmo', false]) then { _gearTarget setPos (player modelToWorld [0,1, 150]); [objNull, _gearTarget] call BIS_fnc_curatorObjectEdited; }; };
 	[_gearType, _gearTarget, side group player] remoteExec ['f_fnc_assignGear', owner _gearTarget];
 	systemChat format['Gear: Filled %1 (%2)', typeOf _gearTarget, _gearType];
-"">IFV Inventory</execute><br/>
+"">IFV Inventory</execute><br/><br/>
 Supply Inventory <execute expression="" 
 	private _gearType = 'crate_small';
 	private _gearTarget = if (vehicle player != player) then { vehicle player } else { if (cursorObject isKindOf 'AllVehicles' || cursorObject isKindOf 'Thing') then { cursorObject } else { objNull } };
@@ -291,29 +307,27 @@ Supply Inventory <execute expression=""
 ";
 
 if ("acre_main" in activatedAddons) then {
-
 	private _missionGear = "<font size='16' color='#80FF00'>ACRE</font><br/>Clicking any of the below will automatically add the item to your uniform inventory.<br/><br/>";
 
 	{ 
 		if (isClass (configFile >> "CfgWeapons" >> _x)) then {
-			_missionGear = _missionGear + format["<img image='%4' height='64'/> <execute expression=""uniformContainer player addItemCargo ['%1', 1]; systemChat 'Added %2';"">%3</execute><br/><br/><br/>", 
+			_missionGear = _missionGear + format["<img image='%4' height='40'/> <execute expression=""uniformContainer player addItemCargoGlobal ['%1', 1]; systemChat 'Added %2';"">%3</execute><br/><br/><br/>", 
 				_x,
 				getText (configFile >> "CfgWeapons" >> _x >> "displayName"),
 				getText (configFile >> "CfgWeapons" >> _x >> "descriptionShort"),
 				getText (configFile >> "CfgWeapons" >> _x >> "picture")
 			];
 		};
-	} forEach ["ACRE_PRC343","ACRE_PRC148","ACRE_PRC152","ACRE_PRC77","ACRE_PRC117F"];
+	} forEach ["ACRE_PRC343","ACRE_PRC148","ACRE_PRC152","ACRE_PRC77","ACRE_PRC117F","ACRE_SEM52SL","ACRE_SEM70","ACRE_BF888S"];															  
 };
 
-player createDiaryRecord ["ZeuAdmin", ["Gear",_missionGear]];
-
+player createDiaryRecord ["ZeuAdmin", ["Gear",_missionGear]];															 
 // ====================================================================================
 
 // TRIGGER SECTION
 _missionTrigger = "<font size='18' color='#80FF00'>TRIGGER OPTIONS</font><br/><br/>This details all triggers in the mission and will allow them to be force-completed, deleted or resulting code executed on the server. Special syntax such as 'thisTrigger' when used in activation code, WILL NOT be functional if executing the code manually - The trigger should be force Activated instead.<br/>";
 
-_encodeText = {
+private _encodeText = {
 	private _specialChars = [38, 60, 62, 34, 39]; //  & < > " '
 	private _convertTo = [[38,97,109,112,59], [38,108,116,59], [38,103,116,59], [38,113,117,111,116,59], [38,97,112,111,115,59]]; //  &amp; &lt; &gt; &quot; &apos;
 	private _chars = [];
@@ -327,25 +341,31 @@ _encodeText = {
 	toString _chars
 };
 
+	private _triggerList = (allMissionObjects "EmptyDetector" select { vehicleVarName _x != "" }) apply { str _x };
+_triggerList = _triggerList select { _x find "_AIPATH_" < 0 };
+_triggerList sort true;
+
 {	// Trigger Check
+	private _trg = missionNamespace getVariable _x;
+	
 	//diag_log text format["[F3] INFO (fn_moduleCheck.sqf): Checking Trigger %1 - %2",_x,typeOf _x];
 	_missionTrigger = _missionTrigger + format["<br/><font size='16' color='#FF0080'>%1</font> - 
-	<font color='#80FF00'><execute expression=""if !(triggerActivated %1) then { { if (!isNil '%1') then { %1 setTriggerStatements ['true',(triggerStatements %1)#1, (triggerStatements %1)#2] };} remoteExec ['BIS_fnc_spawn',2]; hintSilent 'Trigger %1 already Activated'; } else { hintSilent 'Trigger %1 is already enabled' };"">Activate</execute></font> 
-	| <font color='#CF142B'><execute expression=""if (simulationEnabled %1) then {{ if (!isNil '%1') then { %1 enableSimulationGlobal false };} remoteExec ['BIS_fnc_spawn',2]; hintSilent 'Trigger %1 Disabled'} else { hintSilent 'Trigger %1 is already Disabled' };"">Disable</execute></font> 
-	| <font color='#808800'><execute expression=""if !(simulationEnabled %1) then { if (!isNil '%1') then { %1 enableSimulationGlobal true };} remoteExec ['BIS_fnc_spawn',2]; hintSilent 'Trigger %1 Enabled' } else { hintSilent 'Trigger %1 is already Enabled' };"">Enable</execute></font>:<br/>", vehicleVarName _x];
-	if (triggerType _x != "NONE") then { _missionTrigger = _missionTrigger + format["Type: <font color='#888888'>%1</font>", triggerType _x] };
-	if !(triggerActivation _x isEqualTo ["NONE","PRESENT",false]) then { _missionTrigger = _missionTrigger + format["Activation: <font color='#888888'>%1</font><br/>", triggerActivation _x] };
-	if ((triggerStatements _x)#0 != "true") then { _missionTrigger = _missionTrigger + format["Condition: <font color='#8888BB'>%1</font><br/>", [(triggerStatements _x)#0] call _encodeText] };
-	if ((triggerStatements _x)#1 != "") then { _missionTrigger = _missionTrigger + format["On Activation - 
-	<execute expression=""{ call compile ((triggerStatements %2)#1); } remoteExec ['BIS_fnc_spawn',2]; hintSilent '%2 Code Executed (Server)';"">Exec Server</execute> 
-	| <execute expression=""{ call compile ((triggerStatements %2)#1); } remoteExec ['BIS_fnc_spawn',0]; hintSilent '%2 Code Executed (Global)';"">Exec Global</execute>:<br/>
-	<font color='#88BB88'>%1</font><br/>", [(triggerStatements _x)#1] call _encodeText, _x] };
-	if ((triggerStatements _x)#2 != "") then { _missionTrigger = _missionTrigger + format["On Deactivation - 
-	<execute expression=""{ call compile ((triggerStatements %2)#2); } remoteExec ['BIS_fnc_spawn',2]; hintSilent '%2 Code Executed (Server)';"">Exec Server</execute> 
-	| <execute expression=""{ call compile ((triggerStatements %2)#2); } remoteExec ['BIS_fnc_spawn',0]; hintSilent '%2 Code Executed (Global)';"">Exec Global</execute>:<br/>
-	<font color='#BB8888'>%1</font><br/>", [(triggerStatements _x)#2] call _encodeText, _x] };
-	
-} forEach (allMissionObjects "EmptyDetector" select { vehicleVarName _x != "" });
+	<font color='#80FF00'><execute expression=""if !(triggerActivated %1) then { { if (!isNil '%1') then { %1 setTriggerStatements ['true',(triggerStatements %1)#1, (triggerStatements %1)#2] };} remoteExec ['BIS_fnc_spawn',2]; hintSilent 'Trigger %1 Activated'; } else { hintSilent 'Trigger %1 already Activated' };"">Activate</execute></font> 
+	| <font color='#CF142B'><execute expression=""if (simulationEnabled %1) then {{ if (!isNil '%1') then { %1 enableSimulationGlobal false };} remoteExec ['BIS_fnc_spawn',2]; hintSilent 'Trigger %1 Disabled'} else { hintSilent 'Trigger %1 already Disabled' };"">Disable</execute></font> 
+	| <font color='#808800'><execute expression=""if !(simulationEnabled %1) then { if (!isNil '%1') then { %1 enableSimulationGlobal true };} remoteExec ['BIS_fnc_spawn',2]; hintSilent 'Trigger %1 Enabled' } else { hintSilent 'Trigger %1 already Enabled' };"">Enable</execute></font>:<br/>", vehicleVarName _trg];
+	if (triggerType _trg != "NONE") then { _missionTrigger = _missionTrigger + format["Type: <font color='#888888'>%1</font>", triggerType _trg] };
+	if !(triggerActivation _trg isEqualTo ["NONE","PRESENT",false]) then { _missionTrigger = _missionTrigger + format["Activation: <font color='#888888'>%1</font><br/>", triggerActivation _trg] };
+	if ((triggerStatements _trg)#0 != "true") then { _missionTrigger = _missionTrigger + format["Condition: <font color='#8888BB'>%1</font><br/>", [(triggerStatements _trg)#0] call _encodeText] };
+	if ((triggerStatements _trg)#1 != "") then { _missionTrigger = _missionTrigger + format["On Activation - 
+	<execute expression=""{ call compile ('thisTrigger = %2;' + ((triggerStatements %2)#1)); } remoteExec ['BIS_fnc_spawn',2]; hintSilent '%2 Code Executed (Server)';"">Exec Server</execute> 
+	| <execute expression=""{ call compile ('thisTrigger = %2;' + ((triggerStatements %2)#1)); } remoteExec ['BIS_fnc_spawn',0]; hintSilent '%2 Code Executed (Global)';"">Exec Global</execute>:<br/>
+	<font color='#88BB88'>%1</font><br/>", [(triggerStatements _trg)#1] call _encodeText, _trg] };
+	if ((triggerStatements _trg)#2 != "") then { _missionTrigger = _missionTrigger + format["On Deactivation - 
+	<execute expression=""{ call compile ('thisTrigger = %2;' + ((triggerStatements %2)#2)); } remoteExec ['BIS_fnc_spawn',2]; hintSilent '%2 Code Executed (Server)';"">Exec Server</execute> 
+	| <execute expression=""{ call compile ('thisTrigger = %2;' + ((triggerStatements %2)#2)); } remoteExec ['BIS_fnc_spawn',0]; hintSilent '%2 Code Executed (Global)';"">Exec Global</execute>:<br/>
+	<font color='#BB8888'>%1</font><br/>", [(triggerStatements _trg)#2] call _encodeText, _trg] };
+ 
+} forEach _triggerList;
 
 player createDiaryRecord ["ZeuAdmin", ["Triggers",_missionTrigger]];
 
@@ -360,14 +380,21 @@ Enhanced Logging: <font color='#80FF00'><execute expression=""f_param_debugMode 
 Toggles the internal F3 Debug feature, which logs actions within the framework into the report log.<br/><br/>";
 
 // Framework Scripts
-_missionFramework = _missionFramework + "<font size='16' color='#FF0080'>VARIABLES</font><br/>Allows the termination and re-running of core variables.<br/><br/>";
 
+_missionFramework = _missionFramework + "<font size='16' color='#FF0080'>VARIABLES</font><br/>Allows changing the gameplay by modifying core variables.<br/><br/>";
+
+// Variables - Group Markers
+_missionFramework = _missionFramework + "Markers - Group Tracking: <font color='#80FF00'>On <execute expression=""missionNamespace setVariable ['f_param_groupMarkers',1, true]; [[true, false]] remoteExec ['setGroupIconsVisible']; hintSilent 'Group Tracking: On (Global)';"">(Global)</execute> <execute expression=""missionNamespace setVariable ['f_param_groupMarkers',1]; setGroupIconsVisible [true, false]; hintSilent 'Group Tracking: On (Local)';"">(Local)</execute></font> | <font color='#CF142B'>Off <execute expression=""missionNamespace setVariable ['f_param_groupMarkers',0, true]; [[false, false]] remoteExec ['setGroupIconsVisible']; hintSilent 'Group Tracking: Off (Global)';"">(Global)</execute> <execute expression=""missionNamespace setVariable ['f_param_groupMarkers',0]; setGroupIconsVisible [false, false]; hintSilent 'Group Tracking: Off (Local)';"">(Local)</execute></font><br/>";
+
+// Variables- Other
 {
 	_x params ["_title", "_variable", "_message"];
 	_missionFramework = _missionFramework + format["%1: <font color='#80FF00'>On <execute expression="" %2 = true; publicVariable '%2'; hintSilent '%3: On (Global)';"">(Global)</execute> <execute expression=""%2 = true; hintSilent '%3: On (Local)';"">(Local)</execute></font> | <font color='#CF142B'>Off <execute expression=""%2 = false; publicVariable '%2'; hintSilent '%3: Off (Global)';"">(Global)</execute> <execute expression=""%2 = false; hintSilent '%3: Off (Local)';"">(Local)</execute></font><br/>", _title, _variable, _message];
 } forEach [
 	["Markers - Team Tracking","f_var_ShowFTMarkers","Team Tracking"],
-	["Markers - Display Injured","f_var_ShowInjured","Display Injured"]
+	["Markers - Display Injured","f_var_ShowInjured","Display Injured"],
+	["Medical - Instant Death","FAR_var_InstantDeath","Instant Death"],
+	["Medical - Friendly Fire Messages","FAR_var_DeathMessages","FF Messages"]
 ];
 
 // Framework Scripts
@@ -378,21 +405,21 @@ _missionFramework = _missionFramework + "<br/><font size='16' color='#FF0080'>SC
 	_missionFramework = _missionFramework + format["
 	%1: <font color='#80FF00'><execute expression=""{%2 = execVM '%3';} remoteExec ['BIS_fnc_spawn', 0];"">Run</execute></font> | <font color='#CF142B'><execute expression=""[%2] remoteExec ['terminate',0]"">Terminate</execute></font><br/>",_title, _variable, _location];
 } forEach [
-	["Briefing - Core Texts","f_sqf_brief", "f\briefing\briefing.sqf"],
-	["Briefing - ORBAT","f_sqf_orbat", "f\briefing\f_showOrbat.sqf"],
-	["Briefing - Gear Selection","f_sqf_gearSel", "f\briefing\f_showLoadoutSelect.sqf"],
-	["Group - Team Colors","f_sqf_ftmk", "f\setTeamColours\f_setTeamColours.sqf"],
-	["Group - Group Markers","f_sqf_grpm", "f\groupMarkers\f_setLocGroupMkr.sqf"],
-	["Group - Team Markers","f_sqf_ftmrk", "f\FTMemberMarkers\f_initFTMarkers.sqf"],
-	["Map - AO Border","f_sqf_draw","f\briefing\f_drawAO.sqf"],
-	["Misc - Intro","f_sqf_intro","f\common\f_clientIntro.sqf"],
-	["Misc - Third Person","f_sqf_third", "f\thirdPerson\f_thirdPerson.sqf"],
-	["Misc - VAS Crate","f_sqf_vas", "f\misc\f_vas.sqf"],
-	["Misc - JIP Teleport Flag/Action","f_sqf_jip", "f\JIP\f_teleportOption.sqf"],
-	["Misc - Earplugs","f_sqf_earp", "f\earplug\f_earplugs.sqf"],
-	["Misc - Nametags","f_sqf_names", "f\nametag\f_nametags.sqf"],
-	["Misc - Safe Start","f_sqf_safe", "f\safeStart\f_safeStart.sqf"],
-	["Misc - Unit Caching","f_sqf_cache", "f\cache\f_cInit.sqf"]
+	["Briefing - Core Texts","f_sqf_brief", "f\briefing\briefing.sqf"]
+	,["Briefing - ORBAT","f_sqf_orbat", "f\briefing\f_showOrbat.sqf"]
+	,["Briefing - Gear Selection","f_sqf_gearSel", "f\briefing\f_showLoadoutSelect.sqf"]
+	,["Group - Team Colors","f_sqf_ftmk", "f\setTeamColours\f_setTeamColours.sqf"]
+	,["Group - Group Markers","f_sqf_grpm", "f\groupMarkers\f_setLocGroupMkr.sqf"]
+	,["Group - Team Markers","f_sqf_ftmrk", "f\FTMemberMarkers\f_initFTMarkers.sqf"]
+	,["Map - AO Border","f_sqf_draw","f\briefing\f_drawAO.sqf"]
+	,["Misc - Intro","f_sqf_intro","f\common\f_clientIntro.sqf"]
+	,["Misc - Third Person","f_sqf_third", "f\thirdPerson\f_thirdPerson.sqf"]
+	,["Misc - VAS Crate","f_sqf_vas", "f\misc\f_vas.sqf"]
+	,["Misc - JIP Teleport Flag/Action","f_sqf_jip", "f\JIP\f_teleportOption.sqf"]
+	,["Misc - Earplugs","f_sqf_earp", "f\earplug\f_earplugs.sqf"]
+	,["Misc - Nametags","f_sqf_names", "f\nametag\f_nametags.sqf"]
+	,["Misc - Safe Start","f_sqf_safe", "f\safeStart\f_safeStart.sqf"]
+	,["Misc - Virtual Garage","f_sqf_vg", "f\misc\f_virtualGarage.sqf"]
 ];
 
 if (missionNamespace getVariable ["f_var_medical_level", 0] == 1) then {
@@ -569,5 +596,20 @@ if (f_var_CustomNotes != "") then {
 // ADMIN BRIEFING
 // This is a generic section displayed only to the ADMIN
 _adminIntro ="<br/><font size='18' color='#80FF00'>ADMIN SECTION</font><br/><br/>This briefing section can only be seen by server administrators.<br/><br/>";
+
+_adminIntro = _adminIntro + "<br/><font color='#80FF00'>CASUALTY COUNTER</font><br/>";
+
+{
+	_x params ["_sideStr", "_sideVar"];
+	
+	_adminIntro = _adminIntro + format [
+		"[<font color='#CF142B'><execute expression=""[%1, -1] remoteExecCall ['f_fnc_updateCas', 2]; systemChat ('Counter Set to ' + str f_var_casualtyCount_%2);"">-1</execute></font>] [<font color='#0080ff'><execute expression=""[%1, -99] remoteExecCall ['f_fnc_updateCas', 2];  systemChat ('Counter Set to ' + str f_var_casualtyCount_%2);"">Reset</execute></font>] [<font color='#80FF00'><execute expression=""[%1, 1] remoteExecCall ['f_fnc_updateCas', 2]; systemChat ('Counter Set to ' + str f_var_casualtyCount_%2);"">+1</execute></font>] %1 Casuaties<br/>", _sideStr, _sideVar
+	];
+} forEach [["West", west], ["East", east], ["Independent", independent], ["Civilian", civilian]];
+
+_adminIntro = _adminIntro + "<br/><font color='#80FF00'>AI SKILL</font><br/>Set Unit Skill<br/>
+<execute expression=""systemChat 'Skill - Ultra'; { _x setSkill 1 } forEach allUnits"">Ultra</execute> | 
+<execute expression=""systemChat 'Skill - Ranked'; { _x setSkill (if (leader _x == _x) then { 0.4 + random 0.2 } else { 0.2 + random 0.2 }) } forEach allUnits"">Unit Rank</execute> | 
+<execute expression=""systemChat 'Skill - Default';{ _x setSkill 0.4 } forEach allUnits"">Default</execute><br/>";
 
 player createDiaryRecord ["ZeuAdmin", ["Admin Menu",_adminIntro]];

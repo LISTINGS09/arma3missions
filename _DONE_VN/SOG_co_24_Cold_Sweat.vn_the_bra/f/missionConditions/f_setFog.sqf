@@ -33,7 +33,7 @@ if (!isNil "_overRide") then {
 				[0,0,0],			// None
 				[0.4,0,0], 			// Low
 				[0.8,0,0], 			// Heavy
-				[random 0.4,0,0] 	// Random
+				[random 0.3,0,0] 	// Random
 			]
 		} else {
 			f_var_fogOverride;

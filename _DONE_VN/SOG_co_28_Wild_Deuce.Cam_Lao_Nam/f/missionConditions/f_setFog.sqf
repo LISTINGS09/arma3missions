@@ -31,9 +31,9 @@ if (!isNil "_overRide") then {
 			// DEFAULT FOG SETTING
 			[
 				[0,0,0],			// None
-				[0.2,0,0], 			// Low
-				[0.4,0,0], 			// Heavy
-				[random 0.15,0,0] 	// Random
+				[0.4,0,0], 			// Low
+				[0.8,0,0], 			// Heavy
+				[random 0.3,0,0] 	// Random
 			]
 		} else {
 			f_var_fogOverride;

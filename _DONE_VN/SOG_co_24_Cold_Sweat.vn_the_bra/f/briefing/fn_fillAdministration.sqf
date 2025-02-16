@@ -90,9 +90,9 @@ _diaryText = _diaryText + format["<br/>Forecast: <font color='#00FFFF'>%1</font>
 	];
 
 // If short view distance be default, then don't allow to override.
-if (viewDistance > 500) then {
-	_diaryText = _diaryText + format["View Distance: <font color='#00FFFF'>%1 meters</font>
-		[<execute expression=""setViewDistance (viewDistance + 500); setObjectViewDistance (viewDistance + 100); systemChat ('Distance increased to ' + str viewDistance + 'm');"">Increase</execute>]
+	_diaryText = _diaryText + format["View Distance: <font color='#00FFFF'>%1 meters</font>", viewDistance];
+	if (missionNamespace getVariable ["f_param_viewDistance", true]) then {
+		_diaryText = _diaryText + format["[<execute expression=""setViewDistance (viewDistance + 500); setObjectViewDistance (viewDistance + 100); systemChat ('Distance increased to ' + str viewDistance + 'm');"">Increase</execute>]
 		[<execute expression=""setViewDistance (viewDistance - 500); setObjectViewDistance (viewDistance + 100); systemChat ('Distance decreased to ' + str viewDistance + 'm');"">Decrease</execute>]<br/>", 
 		viewDistance
 	];
@@ -175,7 +175,7 @@ if (missionNamespace getVariable ["f_var_medical_level", 0] > 0 && (getMissionCo
 			["","A Medic may place a dead player in a <font color='#FF0080'>Body Bag</font color> to respawn that player. "] select (FAR_var_RespawnBagTime > 0),
 			["","Units should respawn at the nearest Medical Vehicle (if available). "] select FAR_var_SpawnInMedical];
 			
-			_diaryText = _diaryText + "<br/><execute expression=""if (time > 0 && lifeState player isEqualto 'HEALTHY') then { [] spawn { systemChat 'Fixing Ragdoll'; player switchMove ''; player setUnconscious true; sleep 1; player setUnconscious false; } };"">Ragdoll Fix</execute> | <execute expression=""if (time > 0) then { [] spawn { systemChat 'Fixing Uniform'; player setUnitLoadout (getUnitLoadout player) } };"">Uniform Fix</execute> | <execute expression=""if (time > 0) then { [] spawn { player action ['SwitchWeapon', player, player, 100]; } };"">Weapon on Back</execute><br/>";
+			_diaryText = _diaryText + "<br/><execute expression=""if (time > 0 AND lifeState player isEqualto 'HEALTHY') then { [] spawn { systemChat 'Fixing Ragdoll'; player switchMove ''; player setUnconscious true; sleep 1; player setUnconscious false; } };"">Ragdoll Fix</execute> | <execute expression=""if (time > 0) then { [] spawn { systemChat 'Fixing Uniform'; player setUnitLoadout (getUnitLoadout player) } };"">Uniform Fix</execute> | <execute expression=""if (time > 0) then { [] spawn { player action ['SwitchWeapon', player, player, 100]; } };"">Weapon on Back</execute><br/>";
 		};
 		
 		case 2: { // ACE

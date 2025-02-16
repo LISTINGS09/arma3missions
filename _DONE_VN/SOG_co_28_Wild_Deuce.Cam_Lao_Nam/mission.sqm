@@ -8,7 +8,7 @@ class EditorData
 	toggles=33;
 	class ItemIDProvider
 	{
-		nextID=2194;
+		nextID=2195;
 	};
 	class MarkerIDProvider
 	{
@@ -16,10 +16,10 @@ class EditorData
 	};
 	class Camera
 	{
-		pos[]={9136.3262,212.19191,12454.495};
-		dir[]={-0.53231645,-0.35658488,-0.76778024};
-		up[]={-0.20317192,0.93426287,-0.29304257};
-		aside[]={-0.82180315,-1.4901161e-008,0.56977153};
+		pos[]={16896.756,36.227234,7032.8818};
+		dir[]={0.85116875,-0.4921191,0.18275665};
+		up[]={0.48116475,0.87051314,0.10331194};
+		aside[]={0.20993447,-5.899783e-07,-0.9777503};
 	};
 };
 binarizationWanted=0;
@@ -33,6 +33,7 @@ addons[]=
 	"air_f_vietnam_02_c",
 	"air_f_vietnam_c",
 	"wheeled_f_vietnam_c",
+	"air_f_vietnam_05_c",
 	"missions_modules_f_vietnam",
 	"modules_f_vietnam",
 	"A3_Structures_F_Mil_Helipads",
@@ -47,13 +48,14 @@ addons[]=
 	"A3_Modules_F",
 	"A3_Modules_F_Intel",
 	"A3_Structures_F_Items_Documents",
-	"A3_Structures_F_EPA_Civ_Camping"
+	"A3_Structures_F_EPA_Civ_Camping",
+	"A3_Modules_F_Curator_Misc"
 };
 class AddonsMetaData
 {
 	class List
 	{
-		items=19;
+		items=21;
 		class Item0
 		{
 			className="A3_Ui_F";
@@ -105,85 +107,99 @@ class AddonsMetaData
 		};
 		class Item7
 		{
+			className="air_f_vietnam_05_c";
+			name="air_f_vietnam_05_c";
+			author="Savage Game Design";
+			url="https://www.arma3.com";
+		};
+		class Item8
+		{
 			className="missions_modules_f_vietnam";
 			name="missions_f_vietnam";
 			author="Savage Game Design";
 			url="https://www.arma3.com";
 		};
-		class Item8
+		class Item9
 		{
 			className="modules_f_vietnam";
 			name="modules_f_vietnam";
 			author="Savage Game Design";
 			url="https://www.arma3.com";
 		};
-		class Item9
+		class Item10
 		{
 			className="A3_Structures_F_Mil";
 			name="Arma 3 - Military Buildings and Structures";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item10
+		class Item11
 		{
 			className="A3_Structures_F_Tank";
 			name="Arma 3 Tank - Buildings and Structures";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item11
+		class Item12
 		{
 			className="characters_f_vietnam_c";
 			name="characters_f_vietnam_c";
 			author="Savage Game Design";
 			url="https://www.arma3.com";
 		};
-		class Item12
+		class Item13
 		{
 			className="A3_Structures_F_EPB";
 			name="Arma 3 Adapt Episode - Buildings and Structures";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item13
+		class Item14
 		{
 			className="objects_f_vietnam_c";
 			name="objects_f_vietnam_c";
 			author="Savage Game Design";
 			url="https://www.arma3.com";
 		};
-		class Item14
+		class Item15
 		{
 			className="A3_Structures_F";
 			name="Arma 3 - Buildings and Structures";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item15
+		class Item16
 		{
 			className="A3_Props_F_Enoch";
 			name="Arma 3 Contact Platform - Decorative and Mission Objects";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item16
+		class Item17
 		{
 			className="A3_Props_F_Orange";
 			name="Arma 3 Orange - Decorative and Mission Objects";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item17
+		class Item18
 		{
 			className="structures_f_vietnam_c";
 			name="structures_f_vietnam_c";
 			author="Savage Game Design";
 			url="https://www.arma3.com";
 		};
-		class Item18
+		class Item19
 		{
 			className="A3_Structures_F_EPA";
 			name="Arma 3 Survive Episode - Buildings and Structures";
+			author="Bohemia Interactive";
+			url="https://www.arma3.com";
+		};
+		class Item20
+		{
+			className="A3_Modules_F_Curator";
+			name="Arma 3 Zeus Update - Scripted Modules";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
@@ -263,7 +279,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=106;
+		items=107;
 		class Item0
 		{
 			dataType="Marker";
@@ -1675,7 +1691,7 @@ class Mission
 			};
 			id=1232;
 			type="vn_b_air_f4c_cas";
-			atlOffset=9.5367432e-007;
+			atlOffset=9.5367432e-07;
 		};
 		class Item10
 		{
@@ -1708,7 +1724,7 @@ class Mission
 			};
 			id=1236;
 			type="vn_b_wheeled_m54_repair_airport";
-			atlOffset=9.5367432e-007;
+			atlOffset=9.5367432e-07;
 		};
 		class Item12
 		{
@@ -1725,7 +1741,7 @@ class Mission
 			};
 			id=1237;
 			type="vn_b_wheeled_m54_ammo_airport";
-			atlOffset=-9.5367432e-007;
+			atlOffset=-9.5367432e-07;
 		};
 		class Item13
 		{
@@ -1888,7 +1904,7 @@ class Mission
 			};
 			id=1252;
 			type="vn_b_air_uh1c_02_01";
-			atlOffset=9.5367432e-007;
+			atlOffset=9.5367432e-07;
 			class CustomAttributes
 			{
 				class Attribute0
@@ -1961,7 +1977,7 @@ class Mission
 			};
 			id=1253;
 			type="vn_b_air_uh1c_02_01";
-			atlOffset=9.5367432e-007;
+			atlOffset=9.5367432e-07;
 			class CustomAttributes
 			{
 				class Attribute0
@@ -2210,7 +2226,7 @@ class Mission
 			};
 			id=1289;
 			type="vn_b_air_f4c_cas";
-			atlOffset=9.5367432e-007;
+			atlOffset=9.5367432e-07;
 		};
 		class Item23
 		{
@@ -2260,7 +2276,7 @@ class Mission
 			};
 			id=1292;
 			type="Land_RepairDepot_01_green_F";
-			atlOffset=9.5367432e-007;
+			atlOffset=9.5367432e-07;
 		};
 		class Item26
 		{
@@ -2489,7 +2505,7 @@ class Mission
 					};
 					id=2029;
 					type="vn_o_men_vc_02";
-					atlOffset=3.0517578e-005;
+					atlOffset=3.0517578e-05;
 				};
 			};
 			class Attributes
@@ -2498,7 +2514,7 @@ class Mission
 				dynamicSimulation=1;
 			};
 			id=2026;
-			atlOffset=3.0517578e-005;
+			atlOffset=3.0517578e-05;
 		};
 		class Item34
 		{
@@ -2885,7 +2901,7 @@ class Mission
 			};
 			id=2051;
 			type="vn_o_wheeled_btr40_mg_03_vcmf";
-			atlOffset=-3.0517578e-005;
+			atlOffset=-3.0517578e-05;
 		};
 		class Item38
 		{
@@ -3010,7 +3026,7 @@ class Mission
 				};
 			};
 			id=2059;
-			atlOffset=3.3378601e-005;
+			atlOffset=3.3378601e-05;
 		};
 		class Item41
 		{
@@ -3027,7 +3043,7 @@ class Mission
 			};
 			id=2060;
 			type="vn_o_wheeled_btr40_mg_03_vcmf";
-			atlOffset=3.3378601e-005;
+			atlOffset=3.3378601e-05;
 		};
 		class Item42
 		{
@@ -3139,7 +3155,7 @@ class Mission
 			};
 			id=2072;
 			type="vn_b_prop_cot_02";
-			atlOffset=6.1035156e-005;
+			atlOffset=6.1035156e-05;
 		};
 		class Item50
 		{
@@ -3173,7 +3189,7 @@ class Mission
 			};
 			id=2074;
 			type="Land_vn_us_common_table_01";
-			atlOffset=1.5258789e-005;
+			atlOffset=1.5258789e-05;
 		};
 		class Item52
 		{
@@ -3240,7 +3256,7 @@ class Mission
 			};
 			id=2078;
 			type="vn_b_prop_cot_02";
-			atlOffset=6.1035156e-005;
+			atlOffset=6.1035156e-05;
 		};
 		class Item56
 		{
@@ -5068,7 +5084,7 @@ class Mission
 			};
 			id=2150;
 			type="ModuleTaskSetState_F";
-			atlOffset=4.7683716e-006;
+			atlOffset=4.7683716e-06;
 			class CustomAttributes
 			{
 				class Attribute0
@@ -5163,7 +5179,7 @@ class Mission
 			flags=1;
 			id=2156;
 			type="ModuleHideTerrainObjects_F";
-			atlOffset=-3.8146973e-006;
+			atlOffset=-3.8146973e-06;
 			class CustomAttributes
 			{
 				class Attribute0
@@ -5212,7 +5228,7 @@ class Mission
 			class PositionInfo
 			{
 				position[]={9135.2949,211.31009,12451.903};
-				angles[]={-0,2.7052605,0};
+				angles[]={0,2.7052605,0};
 			};
 			side="Empty";
 			class Attributes
@@ -5263,7 +5279,7 @@ class Mission
 			name="marker_17";
 			type="o_hq";
 			id=2170;
-			atlOffset=1.5258789e-005;
+			atlOffset=1.5258789e-05;
 		};
 		class Item104
 		{
@@ -5289,7 +5305,7 @@ class Mission
 			};
 			id=2193;
 			type="Land_WoodenTable_small_F";
-			atlOffset=6.1035156e-005;
+			atlOffset=6.1035156e-05;
 			class CustomAttributes
 			{
 				class Attribute0
@@ -5307,6 +5323,20 @@ class Mission
 				};
 				nAttributes=1;
 			};
+		};
+		class Item106
+		{
+			dataType="Logic";
+			class PositionInfo
+			{
+				position[]={8900,254.25,12000};
+				angles[]={0.25436428,0,5.9536495};
+			};
+			areaSize[]={1500,0,1500};
+			areaIsRectangle=1;
+			flags=1;
+			id=2194;
+			type="ModuleCoverMap_F";
 		};
 	};
 	class Connections

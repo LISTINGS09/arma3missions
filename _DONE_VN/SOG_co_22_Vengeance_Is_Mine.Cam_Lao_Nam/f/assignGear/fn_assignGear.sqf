@@ -18,7 +18,7 @@ if (isNil "f_fnc_compatibleItems") then { f_fnc_compatibleItems = compileFinal p
 if (isNil "f_fnc_tidyGear") then { f_fnc_tidyGear = compileFinal preprocessFileLineNumbers "f\assignGear\fn_tidyGear.sqf"; };
 
 // DETECT unit FACTION
-if (_side == sideUnknown) then { _side = [_unit, true] call BIS_fnc_objectSide };
+if (_side isEqualTo sideUnknown) then { _side = [_unit, true] call BIS_fnc_objectSide };
 
 _typeofUnit = toLower _typeofUnit;
 
@@ -150,7 +150,7 @@ _f_fnc_parseGear = {
 		};
 	} forEach _gearArray;
 	
-	missionNamespace setVariable [_varName,_foundGear,true];
+	missionNamespace setVariable [_varName,_foundGear, true];
 };
 
 // Store item classes for selection later
@@ -158,6 +158,7 @@ if (isNil format["f_var_%1_gear_smokeTH",_side]) then { [format["f_var_%1_gear_s
 if (isNil format["f_var_%1_gear_flareTH",_side]) then { [format["f_var_%1_gear_flareTH",_side],["_chem","_chem1","_chem2","_chem3","_chemAlt","_chemAlt1","_chemAlt2"]] call _f_fnc_parseGear; };	
 if (isNil format["f_var_%1_gear_smokeGL",_side]) then { [format["f_var_%1_gear_smokeGL",_side],["_glsmoke","_glsmoke1","_glsmoke2","_glsmoke3","_glsmokealt","_glsmokealt1","_glsmokealt2"]] call _f_fnc_parseGear; };	
 if (isNil format["f_var_%1_gear_flareGL",_side]) then { [format["f_var_%1_gear_flareGL",_side],["_glflare","_glflare1","_glflare2","_glflare3","_glflarealt","_glflarealt1","_glflarealt2"]] call _f_fnc_parseGear; };	
+if (isNil format["f_var_%1_gear_grenaGL",_side]) then { [format["f_var_%1_gear_grenaGL",_side],["_glmag"]] call _f_fnc_parseGear; };	
 if (isNil format["f_var_%1_gear_grenade",_side]) then { [format["f_var_%1_gear_grenade",_side],["_grenade","_grenade1","_grenade2","_grenade3","_grenadealt","_grenadealt1","_grenadealt2"]] call _f_fnc_parseGear; };	
 if (isNil format["f_var_%1_gear_glasses",_side]) then { [format["f_var_%1_gear_glasses",_side],"_baseGlasses","CfgGlasses"] call _f_fnc_parseGear; };
 
@@ -189,6 +190,20 @@ if (_isMan && !_skipCheck) then {
 	// Warn if any gear is overfilled - Credit: JonBons@BWF
 	if !(_unit canAdd "ItemMap") then {
 		["fn_assignGear.sqf",format["Gear for %1 %2_%3 slot is overfilled.",_unit,_side,_typeofUnit]] call f_fnc_logIssue;
+	};
+	
+	if (!isNil "_uavterminal" && _typeofUnit == "uav") then {
+		private _uavList = [["WEST","B_UavTerminal","B_UAV_01_backpack_F"],["EAST","O_UavTerminal","O_UAV_01_backpack_F"], ["GUER","I_UavTerminal","I_UAV_01_backpack_F"]];
+		private _uavIndex = _uavList findIf { _x#0 isEqualTo _side }; // Find the side we need to check
+		
+		if (_uavIndex >= 0) then {
+			if !(_uavterminal isEqualTo (_uavList select _uavIndex select 1)) then {
+				["fn_assignGear.sqf",format["UAV Terminal for %1 %2_%3 didn't match their side.",_unit,_side,_typeofUnit]] call f_fnc_logIssue;
+				_unit linkItem  (_uavList select _uavIndex select 1);
+				removeBackpack _unit;
+				_unit addBackpack (_uavList select _uavIndex select 2);
+			};
+		};
 	};
 };
 

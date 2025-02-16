@@ -1,10 +1,10 @@
-// Shade a grid in real time for all enemy forces within an area.
-// [] execVM "scripts\colorGrid.sqf";			// Enemy Grid Markers
+// V1.0 - Shade a grid in real time for all enemy forces within an area.
+// [] execVM "scripts\z_colorGrid.sqf";			// Enemy Grid Markers
 if !isServer exitWith {};
 
 params [ ["_object", objNull] ];
 
-private _zoneID = (missionNamespace getVariable ["ZCG_instance",0]) + 1;
+private _zoneID = (missionNamespace getVariable ["ZCG_instance", 0]) + 1;
 missionNamespace setVariable ["ZCG_instance",_zoneID];
 
 private ["_centre","_radius"];
@@ -18,23 +18,22 @@ if (_object isKindOf "EmptyDetector") then {
 };
 
 if (isNil "ZMM_playerSide") then { ZMM_playerSide = side group (selectRandom allPlayers) };
-if (isNil format["ZMM_%1_EnemySide", _zoneID]) then { missionNamespace setVariable [format["ZMM_%1_EnemySide", _zoneID], EAST] };
+if (isNil format["ZMM_%1_EnemySide", _zoneID]) then { missionNamespace setVariable [format["ZMM_%1_EnemySide", _zoneID], ((allGroups apply { side _x }) - [ZMM_playerSide]) select 0] };
 
 private _gridCount = 0;
-private _inArea = _object;
 
 for "_z" from ((_centre#0)+(_radius * -1)) to ((_centre#0)+_radius) step 100 do {
 	for "_y" from ((_centre#1)+(_radius * -1)) to ((_centre#1)+_radius) step 100 do {	
 		private _tempPos = [((floor (_z / 100)) * 100) + 50, ((floor (_y / 100)) * 100) + 50, 0];
 		private _gridName = format["MKR_GRID_%1_%2", _tempPos#0,  _tempPos#1];		
 
-		if (markerText _gridName isEqualTo "" && _tempPos inArea _inArea) then {
+		if (markerText _gridName isEqualTo "" && _tempPos inArea _object) then {
 			private _tempMkr = createMarker [_gridName, _tempPos];
 			_tempMkr setMarkerShape "RECTANGLE";
-			_tempMkr setMarkerBrush "SolidBorder";
+			_tempMkr setMarkerBrush "FDiagonal";
 			_tempMkr setMarkerAlpha 0.4;
 			_tempMkr setMarkerSize [50,50];
-			_tempMkr setMarkerColor "colorEast";
+			_tempMkr setMarkerColor ([(missionNamespace getVariable format["ZMM_%1_EnemySide", _zoneID]), true] call BIS_fnc_sideColor);
 			
 			// Create a trigger to switch the area colour.
 			private _mrkTrigger = createTrigger ["EmptyDetector", _tempPos, false];
@@ -54,4 +53,4 @@ for "_z" from ((_centre#0)+(_radius * -1)) to ((_centre#0)+_radius) step 100 do 
 	};
 };
 
-_gridCount
+missionNamespace setVariable [format['ZMM_%1_GRID_MAX', _zoneID], _gridCount];

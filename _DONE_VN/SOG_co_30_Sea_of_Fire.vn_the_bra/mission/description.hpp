@@ -1,24 +1,338 @@
-// Anything to be included in description.ext goes here...
+#define US_FORCES items[] = \
+{ \
+        "vn_m14_mag", 40, \
+        "vn_m14_t_mag", 10, \
+        "vn_m16_20_mag", 40, \
+        "vn_m16_20_t_mag", 10, \
+        "vn_m16_40_mag", 40, \
+        "vn_m16_40_t_mag", 10, \
+        "vn_m3a1_mag", 40, \
+        "vn_m3a1_t_mag", 10, \
+        "vn_m1897_fl_mag", 40, \
+        "vn_m1897_buck_mag", 40, \
+\
+        "vn_m60_100_mag", 20, \
+\
+        "vn_m1911_mag", 10, \
+        "vn_m10_mag", 10, \
+\
+        "vn_40mm_m381_he_mag", 20, \
+        "vn_40mm_m406_he_mag", 20, \
+        "vn_40mm_m397_ab_mag", 20, \
+        "vn_40mm_m433_hedp_mag", 20, \
+        "vn_40mm_m576_buck_mag", 20, \
+        "vn_40mm_m651_cs_mag", 20, \
+        "vn_40mm_m583_flare_w_mag", 10, \
+        "vn_40mm_m661_flare_g_mag", 10, \
+        "vn_40mm_m662_flare_r_mag", 10, \
+        "vn_40mm_m695_flare_y_mag", 10, \
+        "vn_40mm_m680_smoke_w_mag", 10, \
+        "vn_40mm_m682_smoke_r_mag", 10, \
+        "vn_40mm_m715_smoke_g_mag", 10, \
+        "vn_40mm_m716_smoke_y_mag", 10, \
+        "vn_40mm_m716_smoke_y_mag", 10, \
+        "vn_40mm_m717_smoke_p_mag", 10, \
+\
+        "vn_m14_early_grenade_mag", 20, \
+        "vn_m34_grenade_mag", 20, \
+        "vn_m61_grenade_mag", 20, \
+        "vn_m67_grenade_mag", 20, \
+        "vn_m7_grenade_mag", 20, \
+        "vn_v40_grenade_mag", 20, \
+        "vn_m18_white_mag", 20, \
+        "vn_m18_green_mag", 20, \
+        "vn_m18_purple_mag", 20, \
+        "vn_m18_red_mag", 20, \
+        "vn_m18_yellow_mag", 20, \
+\
+        "vn_mine_m14_mag", 10, \
+        "vn_mine_m16_mag", 10, \
+        "vn_mine_m18_range_mag", 10, \
+        "vn_mine_m18_mag", 10, \
+        "vn_mine_m18_x3_range_mag", 10, \
+        "vn_mine_m18_x3_mag", 10, \
+        "vn_mine_m112_remote_mag", 10, \
+};
+#define SF_FORCES  items[] = \
+{ \
+        "vn_type56_mag", 40, \
+        "vn_type56_t_mag", 10, \
+        "vn_carbine_15_mag", 40, \
+        "vn_carbine_15_t_mag", 10, \
+        "vn_carbine_30_mag", 40, \
+        "vn_carbine_30_t_mag", 10, \
+        "vn_m14_mag", 40, \
+        "vn_m14_t_mag", 10, \
+        "vn_m16_20_mag", 40, \
+        "vn_m16_20_t_mag", 10, \
+        "vn_m16_30_mag", 40, \
+        "vn_m16_30_t_mag", 10, \
+        "vn_m3a1_mag", 40, \
+        "vn_m3a1_t_mag", 10, \
+        "vn_m45_mag", 40, \
+        "vn_m45_t_mag", 10, \
+        "vn_sten_mag", 40, \
+        "vn_sten_t_mag", 10, \
+        "vn_mat49_mag", 40, \
+        "vn_mat49_t_mag", 10, \
+        "vn_mpu_mag", 40, \
+        "vn_mpu_t_mag", 10, \
+        "vn_m1897_fl_mag", 40, \
+        "vn_m1897_buck_mag", 40, \
+\
+        "vn_rpd_125_mag", 20, \
+        "vn_rpd_100_mag", 20, \
+        "vn_m60_100_mag", 20, \
+\
+        "vn_m1911_mag", 10, \
+        "vn_hp_mag", 10, \
+        "vn_hd_mag", 10, \
+\
+        "vn_40mm_m381_he_mag", 20, \
+        "vn_40mm_m406_he_mag", 20, \
+        "vn_40mm_m397_ab_mag", 20, \
+        "vn_40mm_m433_hedp_mag", 20, \
+        "vn_40mm_m651_cs_mag", 20, \
+        "vn_40mm_m583_flare_w_mag", 10, \
+        "vn_40mm_m661_flare_g_mag", 10, \
+        "vn_40mm_m662_flare_r_mag", 10, \
+        "vn_40mm_m695_flare_y_mag", 10, \
+        "vn_40mm_m680_smoke_w_mag", 10, \
+        "vn_40mm_m682_smoke_r_mag", 10, \
+        "vn_40mm_m715_smoke_g_mag", 10, \
+        "vn_40mm_m716_smoke_y_mag", 10, \
+        "vn_40mm_m716_smoke_y_mag", 10, \
+        "vn_40mm_m717_smoke_p_mag", 10, \
+\
+        "vn_m14_early_grenade_mag", 20, \
+        "vn_m34_grenade_mag", 20, \
+        "vn_m61_grenade_mag", 20, \
+        "vn_m67_grenade_mag", 20, \
+        "vn_m7_grenade_mag", 20, \
+        "vn_v40_grenade_mag", 20, \
+        "vn_m18_white_mag", 20, \
+        "vn_m18_green_mag", 20, \
+        "vn_m18_purple_mag", 20, \
+        "vn_m18_red_mag", 20, \
+        "vn_m18_yellow_mag", 20, \
+\
+        "vn_mine_m14_mag", 10, \
+        "vn_mine_m16_mag", 10, \
+        "vn_mine_m18_range_mag", 10, \
+        "vn_mine_m18_mag", 10, \
+        "vn_mine_m18_x3_range_mag", 10, \
+        "vn_mine_m18_x3_mag", 10, \
+        "vn_mine_m112_remote_mag", 10, \
+};
+#define SEAL_FORCES  items[] = \
+{ \
+        "vn_type56_mag", 40, \
+        "vn_type56_t_mag", 10, \
+        "vn_m16_20_mag", 40, \
+        "vn_m16_20_t_mag", 10, \
+        "vn_m16_30_mag", 40, \
+        "vn_m16_30_t_mag", 10, \
+        "vn_m63a_30_mag", 40, \
+        "vn_m63a_30_t_mag", 10, \
+        "vn_m1a1_20_mag", 40, \
+        "vn_m1a1_20_t_mag", 10, \
+        "vn_m1a1_30_mag", 40, \
+        "vn_m1a1_30_t_mag", 10, \
+        "vn_m45_mag", 40, \
+        "vn_m45_t_mag", 10, \
+        "vn_mpu_mag", 40, \
+        "vn_mpu_t_mag", 10, \
+\
+        "vn_rpd_125_mag", 20, \
+        "vn_rpd_100_mag", 20, \
+        "vn_m60_100_mag", 20, \
+        "vn_m63a_100_mag", 20, \
+        "vn_m63a_100_t_mag", 5, \
+        "vn_m63a_150_mag", 20, \
+        "vn_m63a_150_t_mag", 5, \
+\
+        "vn_m1911_mag", 10, \
+        "vn_mk22_mag", 10, \
+        "vn_m10_mag", 10, \
+\
+        "vn_40mm_m381_he_mag", 20, \
+        "vn_40mm_m406_he_mag", 20, \
+        "vn_40mm_m397_ab_mag", 20, \
+        "vn_40mm_m433_hedp_mag", 20, \
+        "vn_40mm_m576_buck_mag", 20, \
+        "vn_40mm_m651_cs_mag", 20, \
+        "vn_40mm_m583_flare_w_mag", 10, \
+        "vn_40mm_m661_flare_g_mag", 10, \
+        "vn_40mm_m662_flare_r_mag", 10, \
+        "vn_40mm_m695_flare_y_mag", 10, \
+        "vn_40mm_m680_smoke_w_mag", 10, \
+        "vn_40mm_m682_smoke_r_mag", 10, \
+        "vn_40mm_m715_smoke_g_mag", 10, \
+        "vn_40mm_m716_smoke_y_mag", 10, \
+        "vn_40mm_m716_smoke_y_mag", 10, \
+        "vn_40mm_m717_smoke_p_mag", 10, \
+\
+        "vn_m14_early_grenade_mag", 20, \
+        "vn_m34_grenade_mag", 20, \
+        "vn_m61_grenade_mag", 20, \
+        "vn_m67_grenade_mag", 20, \
+        "vn_m7_grenade_mag", 20, \
+        "vn_v40_grenade_mag", 20, \
+        "vn_m18_white_mag", 20, \
+        "vn_m18_green_mag", 20, \
+        "vn_m18_purple_mag", 20, \
+        "vn_m18_red_mag", 20, \
+        "vn_m18_yellow_mag", 20, \
+\
+        "vn_mine_m14_mag", 10, \
+        "vn_mine_m16_mag", 10, \
+        "vn_mine_m18_range_mag", 10, \
+        "vn_mine_m18_mag", 10, \
+        "vn_mine_m18_x3_range_mag", 10, \
+        "vn_mine_m18_x3_mag", 10, \
+        "vn_mine_m112_remote_mag", 10, \
+};
+#define AUS_FORCES  items[] = \
+{ \
+        "vn_f1_smg_mag", 40, \
+        "vn_f1_smg_t_mag", 10, \
+        "vn_m16_20_mag", 40, \
+        "vn_m16_20_t_mag", 10, \
+        "vn_l1a1_20_mag", 40, \
+        "vn_l1a1_20_t_mag", 10, \
+        "vn_l1a1_30_mag", 40, \
+        "vn_l1a1_30_t_mag", 10, \
+        "vn_l1a1_30_02_mag", 40, \
+        "vn_l1a1_30_02_t_mag", 10, \
+\
+        "vn_m60_100_mag", 20, \
+\
+        "vn_m1911_mag", 10, \
+        "vn_m10_mag", 10, \
+\
+        "vn_22mm_m61_frag_mag", 20, \
+        "vn_22mm_n94_heat_mag", 20, \
+        "vn_40mm_m381_he_mag", 20, \
+        "vn_40mm_m406_he_mag", 20, \
+        "vn_40mm_m397_ab_mag", 20, \
+        "vn_40mm_m433_hedp_mag", 20, \
+        "vn_40mm_m576_buck_mag", 20, \
+        "vn_40mm_m651_cs_mag", 20, \
+        "vn_40mm_m583_flare_w_mag", 10, \
+        "vn_40mm_m661_flare_g_mag", 10, \
+        "vn_40mm_m662_flare_r_mag", 10, \
+        "vn_40mm_m695_flare_y_mag", 10, \
+        "vn_40mm_m680_smoke_w_mag", 10, \
+        "vn_40mm_m682_smoke_r_mag", 10, \
+        "vn_40mm_m715_smoke_g_mag", 10, \
+        "vn_40mm_m716_smoke_y_mag", 10, \
+        "vn_40mm_m716_smoke_y_mag", 10, \
+        "vn_40mm_m717_smoke_p_mag", 10, \
+\
+        "vn_m14_early_grenade_mag", 20, \
+        "vn_m34_grenade_mag", 20, \
+        "vn_m61_grenade_mag", 20, \
+        "vn_m67_grenade_mag", 20, \
+        "vn_m7_grenade_mag", 20, \
+        "vn_v40_grenade_mag", 20, \
+        "vn_m18_white_mag", 20, \
+        "vn_m18_green_mag", 20, \
+        "vn_m18_purple_mag", 20, \
+        "vn_m18_red_mag", 20, \
+        "vn_m18_yellow_mag", 20, \
+\
+        "vn_mine_m14_mag", 10, \
+        "vn_mine_m16_mag", 10, \
+        "vn_mine_m18_range_mag", 10, \
+        "vn_mine_m18_mag", 10, \
+        "vn_mine_m18_x3_range_mag", 10, \
+        "vn_mine_m18_x3_mag", 10, \
+        "vn_mine_m112_remote_mag", 10, \
+};
+#define CIDG_FORCES  items[] = \
+{ \
+        "vn_m1_garand_mag", 40, \
+        "vn_m1_garand_t_mag", 10, \
+        "vn_carbine_15_mag", 40, \
+        "vn_carbine_15_t_mag", 10, \
+        "vn_carbine_30_mag", 40, \
+        "vn_carbine_30_t_mag", 10, \
+        "vn_m14_mag", 40, \
+        "vn_m14_t_mag", 10, \
+        "vn_m16_20_mag", 40, \
+        "vn_m16_20_t_mag", 10, \
+        "vn_m1918_mag", 40, \
+        "vn_m1918_t_mag", 10, \
+        "vn_m3a1_mag", 40, \
+        "vn_m3a1_t_mag", 10, \
+        "vn_m1897_fl_mag", 40, \
+        "vn_m1897_buck_mag", 40, \
+\
+        "vn_m60_100_mag", 20, \
+\
+        "vn_m1911_mag", 10, \
+        "vn_m10_mag", 10, \
+\
+        "vn_22mm_m1a2_frag_mag", 20, \
+        "vn_22mm_m9_heat_mag", 20, \
+        "vn_22mm_m17_frag_mag", 20, \
+        "vn_22mm_m19_wp_mag", 20, \
+        "vn_22mm_m22_smoke_mag", 20, \
+        "vn_40mm_m381_he_mag", 20, \
+        "vn_40mm_m406_he_mag", 20, \
+        "vn_40mm_m397_ab_mag", 20, \
+        "vn_40mm_m433_hedp_mag", 20, \
+        "vn_40mm_m576_buck_mag", 20, \
+        "vn_40mm_m651_cs_mag", 20, \
+        "vn_40mm_m583_flare_w_mag", 10, \
+        "vn_40mm_m661_flare_g_mag", 10, \
+        "vn_40mm_m662_flare_r_mag", 10, \
+        "vn_40mm_m695_flare_y_mag", 10, \
+        "vn_40mm_m680_smoke_w_mag", 10, \
+        "vn_40mm_m682_smoke_r_mag", 10, \
+        "vn_40mm_m715_smoke_g_mag", 10, \
+        "vn_40mm_m716_smoke_y_mag", 10, \
+        "vn_40mm_m716_smoke_y_mag", 10, \
+        "vn_40mm_m717_smoke_p_mag", 10, \
+\
+        "vn_m34_grenade_mag", 20, \
+        "vn_m61_grenade_mag", 20, \
+        "vn_m7_grenade_mag", 20, \
+        "vn_m18_white_mag", 20, \
+        "vn_m18_green_mag", 20, \
+        "vn_m18_purple_mag", 20, \
+        "vn_m18_red_mag", 20, \
+        "vn_m18_yellow_mag", 20, \
+\
+        "vn_mine_m14_mag", 10, \
+        "vn_mine_m16_mag", 10, \
+        "vn_mine_m18_range_mag", 10, \
+        "vn_mine_m18_mag", 10, \
+        "vn_mine_m18_x3_range_mag", 10, \
+        "vn_mine_m18_x3_mag", 10, \
+        "vn_mine_m112_remote_mag", 10, \
+};
+
 class vn_artillery_settings
 {
         // Add your NUMBER variable that will be used as a cost variable - leave empty if you don't want the cost to matter.
         cost_variable = "";
         // Array - { Always available, `radio_backpacks`, `radio_vehicles`, `player_types`, "vn_artillery" unit trait}
         // Make the first true for the radio to be always avaliable
-        availability[] = {1, 0, 0, 0, 1};
+        availability[] = {0, 0, 0, 0, 1};
         // If enabled the "vn_artillery" unit trait is always required to use the radio support, additionaly to `availability` settings.
         unit_trait_required = 1;
         // Distance from the edge of a blacklisted marker that a artillery/aircraft cannot be called in.
-        danger_distance = 100;
+        danger_distance = 50;
         // Maximum delay for the support to arrive, regardless of the time calculated from distance to support module.
         delay_max = 90;
         // Determines if the support planes/helicopters will be set to captive.
         captive = 1;
- 
+
         radio_backpacks[] = {"vn_o_pack_t884_01", "vn_o_pack_t884_ish54_01_pl", "vn_o_pack_t884_m1_01_pl", "vn_o_pack_t884_m38_01_pl", "vn_o_pack_t884_ppsh_01_pl", "vn_b_pack_prc77_01_m16_pl", "vn_b_pack_03_m3a1_pl", "vn_b_pack_03_xm177_pl", "vn_b_pack_03_type56_pl", "vn_b_pack_03", "vn_b_pack_prc77_01", "vn_b_pack_trp_04", "vn_b_pack_trp_04_02", "vn_b_pack_03", "vn_b_pack_03_02", "vn_b_pack_lw_06"};
         radio_vehicles[] = {"vn_b_boat_05_01", "vn_b_wheeled_m54_03", "vn_b_wheeled_m151_01", "vn_b_wheeled_m54_02", "vn_b_wheeled_m54_01", "vn_b_wheeled_m54_mg_02", "vn_i_air_ch34_02_01", "vn_i_air_ch34_01_02", "vn_i_air_ch34_02_02"};
         player_types[] = {"vn_b_men_sog_05", "vn_b_men_sog_17", "vn_b_men_army_08", "vn_o_men_nva_dc_13", "vn_o_men_nva_65_27", "vn_o_men_nva_65_13", "vn_o_men_nva_27", "vn_o_men_nva_13", "vn_o_men_nva_marine_13", "vn_o_men_nva_navy_13", "vn_o_men_vc_local_27", "vn_o_men_vc_local_13", "vn_o_men_vc_regional_13"};
- 
+
         // Planes
         class aircraft
         {
@@ -199,8 +513,8 @@ class vn_artillery_settings
                                 illumination = 1;
                                 cost = 0;
                         };
-                class dawn_1
-                {
+                        class dawn_1
+                        {
                                 displayname = $STR_VN_ARTILLERY_ARTILLERY_ILLUMINATION_DAWN_1_NAME;
                                 icon = "vn\ui_f_vietnam\data\decals\vn_callsign_src_usarmy_ca.paa";
                                 description = $STR_VN_ARTILLERY_ARTILLERY_ILLUMINATION_DAWN_1_DESCRIPTION;
@@ -212,6 +526,38 @@ class vn_artillery_settings
                                 cost = 0;
                         };
                 };
+
+                // The following config block is for missions running "S.O.G. Nickel Steel"
+                // Avaliable at https://steamcommunity.com/sharedfiles/filedetails/?id=3083451905
+                // This section is commented out by default, to enable it in your mission, remove the '/*' and '*/' below
+                /*
+                class support
+                {
+                        displayname = $STR_VN_ARTILLERY_AIRCRAFT_SUPPORT_NAME;
+                        class ac119_bomb
+                        {
+                                displayname = $STR_VN_ARTILLERY_AIRCRAFT_SUPPORT_AC119_BOMB_NAME;
+                                icon = "vn\ui_f_vietnam\data\decals\vn_callsign_src_29tas_ca.paa";
+                                description = $STR_VN_ARTILLERY_AIRCRAFT_SUPPORT_AC119_BOMB_DESCRIPTION;
+                                function = "vnx_fnc_artillery_ac119_bomb";
+                                divergence = -250;
+                                delay_max = 120;
+                                cooldown = (60*5);
+                                cost = 50;
+                        };
+                        class ac119_orbit
+                        {
+                                displayname = $STR_VN_ARTILLERY_AIRCRAFT_SUPPORT_AC119_NAME;
+                                icon = "vn\ui_f_vietnam\data\decals\vn_callsign_src_29tas_ca.paa";
+                                description = $STR_VN_ARTILLERY_AIRCRAFT_SUPPORT_AC119_DESCRIPTION;
+                                function = "vnx_fnc_artillery_ac119_orbit";
+                                divergence = -1000;
+                                delay_max = 120;
+                                cooldown = (60*5);
+                                cost = 50;
+                        };
+                };
+                */
         };
         class artillery
         {

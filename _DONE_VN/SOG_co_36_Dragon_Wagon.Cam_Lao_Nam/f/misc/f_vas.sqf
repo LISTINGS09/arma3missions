@@ -1,12 +1,10 @@
 // 	Zeus - VAS Option
-//  Description: Allows players to quickly teleport to their team.
+//  Description: Allows players to quickly teleport to their team and adds virtual arsenal and garage.
 // ====================================================================================
 if !hasInterface exitWith {};
 
-private ["_flagType","_flagMarker"];
-
-_flagType = "Flag_White_F";
-_flagMarker = "respawn_civilian";
+private _flagType = "Flag_White_F";
+private _flagMarker = "respawn_civilian";
 
 switch (side (group player)) do {
 	case west		: { _flagType = "Flag_Blue_F"; 	_flagMarker = "respawn_west"; };
@@ -16,20 +14,26 @@ switch (side (group player)) do {
 
 if (_flagMarker in allMapMarkers) then {
 	if (isNil "f_obj_spawnFlag") then {
-		f_obj_spawnFlag = _flagType createVehicleLocal [getMarkerPos _flagMarker select 0, (getMarkerPos _flagMarker select 1) - 5, 0];
-		sleep 0.5;
+		private _mrkPos = getMarkerPos _flagMarker;
+		_mrkPos set [2,0];
+		
+		f_obj_spawnFlag = _flagType createVehicleLocal _mrkPos;
+		sleep 0.1;
+		
+		private _flagTexture = missionNamespace getVariable ["f_var_flagTexture", ""];
+		if !(_flagTexture isEqualTo "") then { f_obj_spawnFlag setFlagTexture _flagTexture };
 		
 		// Don't spawn on seabed.
 		if (underwater f_obj_spawnFlag) then {
-			f_obj_spawnFlag setPosASL [position f_obj_spawnFlag select 0,position f_obj_spawnFlag select 1,0];
-			_flagStone = "Land_W_sharpStone_02" createVehicleLocal [0,0,0];
-			_flagStone setPosASL [getMarkerPos _flagMarker select 0, (getMarkerPos _flagMarker select 1) - 5,-1];
+			private _flagStone = "Land_W_sharpStone_02" createVehicleLocal [0,0,0];		
+			_flagStone setPosASL [_mrkPos#0,_mrkPos#1,-1];
+			f_obj_spawnFlag setPosASL (lineIntersectsSurfaces [_mrkPos vectorAdd [0,0,1000], AGLToASL _mrkPos] #0 #0);
 		};
 	};
 	
 	// Get Server Admin List
-	_incAdmin = false;
-	_uidList = ["76561197970695190"]; // 2600K
+	private _incAdmin = false;
+	private _uidList = ["76561197970695190"]; // 2600K
 	if (!isNil "f_var_AuthorUID") then { _uidList pushBack f_var_AuthorUID };
 	if (!isNil "f_zeusAdminNames") then { if (f_zeusAdminNames isEqualType []) then { _uidList append f_zeusAdminNames }; };
 
@@ -47,9 +51,98 @@ if (_flagMarker in allMapMarkers) then {
 	};
 	
 	f_obj_spawnFlag addAction ["<t color='#0080FF'>Virtual Garage</t>", { if (!isNil "ZEU_fnc_StartVirtualGarage") then { [] spawn ZEU_fnc_StartVirtualGarage } else { systemChat "[VG] Check the briefing to set Virtual Garage spawn point"; [] execVM "f\misc\f_virtualGarage.sqf"; }}, nil, 1.4, true, true, "", "missionNamespace getVariable ['f_param_virtualGarage',0] != 0 OR serverCommandAvailable '#kick'"];	
-	f_obj_spawnFlag addAction ["<t color='#FF8000'>Virtual Arsenal</t>", {["Open",true] spawn BIS_fnc_arsenal}, nil, 1.5, true, true, "", "missionNamespace getVariable ['f_param_virtualArsenal',0] != 0 OR serverCommandAvailable '#kick'"];
+	f_obj_spawnFlag addAction ["<t color='#FF8000'>Virtual Arsenal</t>", {["Open",true] spawn BIS_fnc_arsenal}, nil, 1.6, true, true, "", "missionNamespace getVariable ['f_param_virtualArsenal',0] != 0 OR serverCommandAvailable '#kick'"];
 	
-	f_obj_spawnFlag addAction ["<t color='#007F00'>Copy Leaders Uniform</t>",{ 		
+	if (missionNamespace getVariable ['f_param_fastTravel',0] == 0 && (serverCommandAvailable "#kick" || _incAdmin || !isMultiplayer)) then {
+		f_obj_spawnFlag addAction ["<t color='#CCCCCC'>Lock Fast Travel (Admin)</t>", { missionNamespace setVariable ['f_param_fastTravel', 0, true] }, nil, 0.5, true, true, "", "missionNamespace getVariable ['f_param_fastTravel',0] != 0"];
+		f_obj_spawnFlag addAction ["<t color='#CCCCCC'>Unlock Fast Travel (Admin)</t>", { missionNamespace setVariable ['f_param_fastTravel', 1, true] }, nil, 0.5, true, true, "", "missionNamespace getVariable ['f_param_fastTravel',0] == 0"];
+	};
+	
+	if (missionNamespace getVariable ['f_param_haloTravel',0] == 0 && (serverCommandAvailable "#kick" || _incAdmin || !isMultiplayer)) then {
+		f_obj_spawnFlag addAction ["<t color='#CCCCCC'>Lock HALO Travel (Admin)</t>", { missionNamespace setVariable ['f_param_haloTravel', 0, true] }, nil, 0.5, true, true, "", "missionNamespace getVariable ['f_param_haloTravel',0] != 0"];
+		f_obj_spawnFlag addAction ["<t color='#CCCCCC'>Unlock HALO Travel (Admin)</t>", { missionNamespace setVariable ['f_param_haloTravel', 1, true] }, nil, 0.5, true, true, "", "missionNamespace getVariable ['f_param_haloTravel',0] == 0"];
+	};
+	
+	f_obj_spawnFlag addAction ["<t color='#35BAF6'>Add Fast Travel</t>", {
+		[[1,0,false,[],0], "f\mapClickTeleport\f_mapClickTeleportAction.sqf"] remoteExec ["execVM", (_this select 1)]; 
+		f_var_lastActionTime = time + 15;
+		systemChat format["Use the %1 to select individual Fast Travel Location",if (isClass(configFile >> 'CfgPatches' >> 'ace_main')) then {'ACE Team Management'} else {'Action Menu'}]; 		
+	}, nil, 6, true, true, "", "missionNamespace getVariable ['f_param_fastTravel',0] != 0 && missionNamespace getVariable ['f_var_lastActionTime',0] < time"];
+	f_obj_spawnFlag addAction ["<t color='#35BAF6'>Add HALO Travel</t>", {
+		[[1,0,false,[],2000], "f\mapClickTeleport\f_mapClickTeleportAction.sqf"] remoteExec ["execVM", (_this select 1)]; 
+		f_var_lastActionTime = time + 15;
+		systemChat format["Use the %1 to select individual HALO Location",if (isClass(configFile >> 'CfgPatches' >> 'ace_main')) then {'ACE Team Management'} else {'Action Menu'}]; 		
+	}, nil, 6, true, true, "", "missionNamespace getVariable ['f_param_haloTravel',0] != 0 && missionNamespace getVariable ['f_var_lastActionTime',0] < time"];
+
+	// TODO: Add ability to choose traits	
+	f_obj_spawnFlag addAction ["<t color='#FF8000'>Assign Gear (Default Class)</t>", { [player getVariable ["f_var_assignGear","r"],player] spawn f_fnc_assignGear }, nil, 0.5, true, true, "", "true"];
+	f_obj_spawnFlag addAction ["<t color='#FF8000'>Switch Class</t>", "f\misc\f_unitType.sqf", nil, 0.4, true, true, "", "true"];
+	
+	f_obj_spawnFlag addAction ["<t color='#FF8000'>Create Gear Guide</t>", {
+		private _create = false;
+		
+		if (isNil "f_obj_gearGuide") then {
+			_create = true
+		} else {;
+			if (!alive f_obj_gearGuide) then { deleteVehicle f_obj_gearGuide; _create = true };
+		};
+		
+		if (_create) then {
+			private _agent = createAgent ["C_Soldier_VR_F", getPosATL f_obj_spawnFlag, [], 2, "NONE"];
+			_agent allowDamage false;
+			_agent disableAI "ALL";
+			missionNamespace setVariable ["f_obj_gearGuide", _agent, true];		
+		};
+		
+		removeAllWeapons f_obj_gearGuide;
+		removeAllItems f_obj_gearGuide;
+		removeAllAssignedItems f_obj_gearGuide;
+		removeUniform f_obj_gearGuide;
+		removeVest f_obj_gearGuide;
+		removeBackpackGlobal f_obj_gearGuide;
+		removeHeadgear f_obj_gearGuide;
+		removeGoggles f_obj_gearGuide;
+		
+		f_obj_gearGuide forceAddUniform uniform player;
+		f_obj_gearGuide addVest vest player; 
+		f_obj_gearGuide addBackpackGlobal backpack player; 
+		f_obj_gearGuide addHeadgear headgear player;
+		f_obj_gearGuide addWeapon primaryWeapon player;
+	}, nil, 1.5, true, true, "", "missionNamespace getVariable ['f_param_virtualArsenal',0] != 0 OR serverCommandAvailable '#kick'"];
+	
+	f_obj_spawnFlag addAction ["<t color='#50E0FF'>Copy Guide Uniform</t>",{ 		
+		if (uniform f_obj_gearGuide != uniform player && uniform f_obj_gearGuide != "") then {
+			private _mag = magazineCargo uniformContainer player;
+			private _itm = itemCargo uniformContainer player;
+			removeUniform player;
+			player forceAddUniform uniform f_obj_gearGuide; 
+			{ uniformContainer player addMagazineCargoGlobal [_x,1] } forEach _mag;
+			{ uniformContainer player addItemCargoGlobal [_x,1] } forEach _itm;
+		};
+		if (vest f_obj_gearGuide != vest player && vest f_obj_gearGuide != "") then {
+			private _mag = magazineCargo vestContainer player;
+			private _itm = itemCargo vestContainer player;
+			removeVest player;
+			player addVest vest f_obj_gearGuide; 
+			{ vestContainer player addMagazineCargoGlobal [_x,1] } forEach _mag;
+			{ vestContainer player addItemCargoGlobal [_x,1] } forEach _itm;
+		};
+		if (backpack f_obj_gearGuide != backpack player && backpack f_obj_gearGuide != "") then {
+			private _mag = magazineCargo backpackContainer player;
+			private _itm = itemCargo backpackContainer player;
+			removeBackpackGlobal player;
+			player addBackpackGlobal backpack f_obj_gearGuide; 
+			{ backpackContainer player addMagazineCargoGlobal [_x,1] } forEach _mag;
+			{ backpackContainer player addItemCargoGlobal [_x,1] } forEach _itm;
+		};
+		if (headgear f_obj_gearGuide != headgear player) then {
+			removeHeadgear player;
+			player addHeadgear headgear f_obj_gearGuide;
+		};
+		systemChat "Copied Uniform from Guide";
+	}, nil, 1.5, true, true, "", "!isNil 'f_obj_gearGuide' && alive f_obj_gearGuide"];
+	
+	f_obj_spawnFlag addAction ["<t color='#50E0FF'>Copy Leaders Uniform</t>",{ 		
 		if (uniform leader player != uniform player  && uniform leader player != "") then {
 			private _mag = magazineCargo uniformContainer player;
 			private _itm = itemCargo uniformContainer player;
@@ -78,7 +171,28 @@ if (_flagMarker in allMapMarkers) then {
 			removeHeadgear player;
 			player addHeadgear headgear leader player;
 		};
+		
+		systemChat format["Copied Uniform from %1", name leader player];
 	}, nil, 1.5, true, true, "", "missionNamespace getVariable ['f_param_virtualArsenal',0] != 0"];
+
+	addMissionEventHandler ["Draw3D", {
+		if (isNull (missionNamespace getVariable ["f_obj_gearGuide",objNull])) exitWith {};
+		if (f_obj_gearGuide distance player > 10) exitWith {};
+		
+		drawIcon3D [
+			"",
+			[1,1,1,1],
+			visiblePosition f_obj_gearGuide vectorAdd [0,0,2],
+			2,
+			-1.40,
+			0,
+			"Current Loadout",
+			2,
+			0.04,
+			"PuristaBold",
+			"Center"
+		];
+	}];	
 } else {
 	if (_flagMarker != "respawn_civilian") then { ["f_VAS.sqf",format["No respawn marker found for VAS (%1).",side (group player)]] call f_fnc_logIssue };
 };

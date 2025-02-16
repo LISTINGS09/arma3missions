@@ -6,9 +6,7 @@
 // Only run this for players
 if (!hasInterface) exitWith {};
 
-f_fnc_mapClickTeleportGroup = compileFinal preprocessFileLineNumbers "f\mapClickTeleport\fn_mapClickTeleportGroup.sqf";
 f_fnc_mapClickTeleportUnit = compileFinal preprocessFileLineNumbers "f\mapClickTeleport\fn_mapClickTeleportUnit.sqf";
-f_fnc_mapClickHaloEffect = compileFinal preprocessFileLineNumbers "f\mapClickTeleport\fn_mapClickHaloEffect.sqf";
 
 // MAKE SURE THE PLAYER INITIALIZES PROPERLY
 if (!isDedicated && (isNull player)) then {
@@ -26,8 +24,8 @@ if (isNil "f_var_mapClickTeleport_GroupTeleport") then {f_var_mapClickTeleport_G
 // If > 0 map click TP will act as a HALO drop and automatically assign parachutes to units
 if (isNil "f_var_mapClickTeleport_Height") then {f_var_mapClickTeleport_Height = _dropHeight};
 
-// Allow all group leaders or those of senior rank access to Teleport.
-if (f_var_mapClickTeleport_GroupTeleport && player != leader group player && rank player in ["PRIVATE","CORPORAL"]) exitWith {};
+// Allow all group leaders access to Teleport.
+if (f_var_mapClickTeleport_GroupTeleport && player != leader group player) exitWith {};
 		
 // Make sure that no non-existing units have been parsed
 {

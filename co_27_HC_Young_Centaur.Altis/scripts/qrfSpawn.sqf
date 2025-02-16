@@ -27,12 +27,6 @@ switch (typeName _location) do {
 
 if !(_location isEqualType []) exitWith { systemChat "[QRF] ERROR Invalid Object/Position"; diag_log text "[QRF] ERROR Invalid Object/Position"; };
 
-// Configuration - Pick ONE side.
-
-**********************
-*** VANILLA GROUPS ***
-**********************
-
 // WEST - FIA (VANILLA)
 _side = WEST;
 ZMM_WESTMan = ["B_G_Soldier_F","B_G_Soldier_LAT_F","B_G_Soldier_F","B_G_Soldier_SL_F","B_G_Soldier_F","B_G_Soldier_AR_F"];

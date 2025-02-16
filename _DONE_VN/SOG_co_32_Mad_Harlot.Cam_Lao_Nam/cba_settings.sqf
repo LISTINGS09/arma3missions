@@ -36,11 +36,6 @@ force TFAR_setting_defaultFrequencies_lr_independent = "50,50.2,50.4,50.6,50.8,5
 
 // ACRE
 force acre_sys_core_revealToAI = 2.5;
-force acre_sys_signal_signalModel = 0;
-
-// STHUD
-force STHud_Settings_RemoveDeadViaProximity = TRUE;
-force STHud_Settings_Occlusion = TRUE;
 
 // ACE
 // http://www.29th.org/a3/index.php?title=ACE_3_Settings
@@ -51,6 +46,7 @@ force ace_advanced_fatigue_terrainGradientFactor = 0.9;
 
 force ace_medical_AIDamageThreshold = 0.8;
 force ace_medical_playerDamageThreshold = 2;
+//force ace_medical_preventInstaDeath = TRUE;
 force ace_medical_spontaneousWakeUpEpinephrineBoost = 20;
 force ace_medical_ivFlowRate = 10;
 
@@ -64,3 +60,6 @@ force ace_repair_fullRepairLocation = 0;
 force ace_weather_enableServerController = FALSE;
 force ace_weather_enabled = FALSE;
 force ace_weather_useACEWeather = FALSE;
+
+force ace_overheating_cookoffCoef = 4;
+force ace_overheating_heatCoef = 0.7;

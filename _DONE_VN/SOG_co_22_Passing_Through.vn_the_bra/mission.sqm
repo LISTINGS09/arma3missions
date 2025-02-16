@@ -8,7 +8,7 @@ class EditorData
 	toggles=1;
 	class ItemIDProvider
 	{
-		nextID=1980;
+		nextID=1981;
 	};
 	class MarkerIDProvider
 	{
@@ -16,18 +16,18 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=44;
+		nextID=52;
 	};
 	class Camera
 	{
-		pos[]={4898.5977,184.2675,2835.0981};
-		dir[]={-0.82715452,-0.56035638,0.042618692};
-		up[]={-0.55961412,0.82825154,0.028833816};
-		aside[]={0.051456206,0,0.99867535};
+		pos[]={3349.8596,64.720001,4271.998};
+		dir[]={0.32235429,-0.46701702,-0.8233971};
+		up[]={0.17025189,0.88424838,-0.43487838};
+		aside[]={-0.93118316,0,-0.36455178};
 	};
 };
 binarizationWanted=0;
-sourceName="co_22_Passing_Through";
+sourceName="SOG_co_22_Passing_Through";
 addons[]=
 {
 	"missions_modules_f_vietnam",
@@ -37,13 +37,14 @@ addons[]=
 	"modules_f_vietnam",
 	"wheeled_f_vietnam_c",
 	"characters_f_vietnam_c",
-	"A3_Modules_F_Intel"
+	"A3_Modules_F_Intel",
+	"A3_Modules_F_Curator_Misc"
 };
 class AddonsMetaData
 {
 	class List
 	{
-		items=7;
+		items=8;
 		class Item0
 		{
 			className="missions_modules_f_vietnam";
@@ -91,6 +92,13 @@ class AddonsMetaData
 			className="characters_f_vietnam_c";
 			name="characters_f_vietnam_c";
 			author="Savage Game Design";
+			url="https://www.arma3.com";
+		};
+		class Item7
+		{
+			className="A3_Modules_F_Curator";
+			name="Arma 3 Zeus Update - Scripted Modules";
+			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
 	};
@@ -165,7 +173,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=31;
+		items=32;
 		class Item0
 		{
 			dataType="Layer";
@@ -609,7 +617,7 @@ class Mission
 					};
 					id=1589;
 					type="B_Soldier_TL_F";
-					atlOffset=3.8146973e-006;
+					atlOffset=3.8146973e-06;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -684,7 +692,7 @@ class Mission
 					};
 					id=1593;
 					type="B_soldier_AAR_F";
-					atlOffset=3.8146973e-006;
+					atlOffset=3.8146973e-06;
 				};
 				class Item7
 				{
@@ -707,7 +715,7 @@ class Mission
 					};
 					id=1927;
 					type="B_Soldier_F";
-					atlOffset=3.8146973e-006;
+					atlOffset=3.8146973e-06;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -905,7 +913,7 @@ class Mission
 					};
 					id=1596;
 					type="B_medic_F";
-					atlOffset=-3.8146973e-006;
+					atlOffset=-3.8146973e-06;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -1090,7 +1098,7 @@ class Mission
 					};
 					id=1931;
 					type="B_Soldier_F";
-					atlOffset=3.8146973e-006;
+					atlOffset=3.8146973e-06;
 				};
 				class Item9
 				{
@@ -1340,7 +1348,7 @@ class Mission
 			};
 			id=1938;
 			type="EmptyDetectorAreaR250";
-			atlOffset=4.7683716e-007;
+			atlOffset=4.7683716e-07;
 		};
 		class Item14
 		{
@@ -1415,7 +1423,7 @@ class Mission
 			};
 			id=1941;
 			type="vn_b_wheeled_m54_mg_03";
-			atlOffset=-8.392334e-005;
+			atlOffset=-8.392334e-05;
 		};
 		class Item17
 		{
@@ -1453,7 +1461,7 @@ class Mission
 			};
 			id=1943;
 			type="vn_b_wheeled_m54_mg_03";
-			atlOffset=-1.9073486e-005;
+			atlOffset=-1.9073486e-05;
 		};
 		class Item19
 		{
@@ -1857,6 +1865,7 @@ class Mission
 				onActivation="[thisTrigger] execVM ""scripts\colorGrid.sqf"";";
 				sizeA=150;
 				sizeB=300;
+				timeout[]={1,1,1};
 				isServerOnly=1;
 			};
 			id=1974;
@@ -2076,6 +2085,20 @@ class Mission
 				};
 				nAttributes=2;
 			};
+		};
+		class Item31
+		{
+			dataType="Logic";
+			class PositionInfo
+			{
+				position[]={4100,13.15,2900};
+				angles[]={5.9270511,0,6.128427};
+			};
+			areaSize[]={1000,0,1000};
+			areaIsRectangle=1;
+			flags=1;
+			id=1980;
+			type="ModuleCoverMap_F";
 		};
 	};
 	class Connections
