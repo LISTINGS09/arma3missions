@@ -55,10 +55,10 @@ _orbatText = _orbatText + format["<br /><font size='18' color='#80FF00'>%1 GROUP
 	
 _orbatText = _orbatText + format["Assume <execute expression=""
 		if (leader group player != player and time > 0 and alive player) then {
-			[group player, player] remoteExec ['selectLeader',group player];
-			'%1 has taken lead of the Group' remoteExec ['systemChat',group player];
+			[group player, player] remoteExecCall ['selectLeader',group player];
+			('%1 has taken lead of ' + (groupID (group player))) remoteExec ['systemChat',group player];
 		};
-	"">leadership of %2</execute> to update the location of any group marker.<br/><br/>",name player, groupId (group player)];
+	"">leadership of the group</execute> to update the location of any group marker.<br/><br/>",name player];
 
 // Team Colour Switch
 _orbatText = _orbatText + "Switch or reset your fire-team colour, by clicking on any colour below:<br/>";

@@ -3,17 +3,18 @@
 // Generates Ambient Garrison and Patrols
 //
 // Usage: _nul = [] execVM "scripts\z_ambientUnits.sqf";
-ZAU_version = 0.8;
+ZAU_version = 1.2;
 if !isServer exitWith {};
 
 // Unit Variables
-
-// CHOOSE ONE SIDE AND ONE ARRAY OF MEN!
 
 private _side = EAST;
 ZMM_EASTMan = ["I_C_Soldier_Para_7_F","I_C_Soldier_Para_4_F","I_C_Soldier_Para_1_F","I_C_Soldier_Para_2_F"]; // GUER - SYNDIKAT (VANILLA)
 
 sleep 5;
+
+// Disable script if difficulty is explicitly disabled
+if ((missionNamespace getVariable ["f_param_ZMMDiff", 1]) <= 0) exitWith {};
 
 // User Variables
 if (isNil "ZAU_Debug" ) 		then { ZAU_Debug = false };		// Show Markers
@@ -21,10 +22,12 @@ if (isNil "ZAU_DistMax" ) 		then { ZAU_DistMax = 600 };		// Max distance to find
 if (isNil "ZAU_DistMin" ) 		then { ZAU_DistMin = 400 }; 	// Min distance to spawn.
 if (isNil "ZAU_UnitsMax" ) 		then { ZAU_UnitsMax = 20 * (missionNamespace getVariable ["f_param_ZMMDiff", 1]) };		// Max units active at once.
 if (isNil "ZAU_UnitsChance" ) 	then { ZAU_UnitsChance = 60 }; 	// Overall chance to spawn
-if (isNil "ZAU_UnitsGarrison" ) then { ZAU_UnitsGarrison = 3 }; // # of units in garrison
-if (isNil "ZAU_UnitsPatrol" ) 	then { ZAU_UnitsPatrol = 4 }; 	// # of units in patrols
+if (isNil "ZAU_UnitsGarrison" ) then { ZAU_UnitsGarrison = [2,4] select ((count allPlayers) >= 10) }; // # of units in garrison
+if (isNil "ZAU_UnitsPatrol" ) 	then { ZAU_UnitsPatrol = [2,4] select ((count allPlayers) >= 10) }; 	// # of units in patrols
 if (isNil "ZAU_SleepTime" ) 	then { ZAU_SleepTime = 30 }; 	// Seconds between checks
 if (isNil "ZAU_SafeAreas" ) 	then { ZAU_SafeAreas = ((allMapMarkers select { "cover" in toLower _x || "safezone" in toLower _x}) - ["bis_fnc_moduleCoverMap_border"]) + (missionNamespace getVariable ["ZCS_var_BlackList",[]]) };
+if (isNil "ZAU_FadeMarker" ) 	then { ZAU_FadeMarker = false };// Allow locations to be repopulated
+
 // Script Variables
 ZAU_Loop = true;
 ZAU_UnitsActive = [];
@@ -46,9 +49,9 @@ while {ZAU_Loop} do {
 
 	// Fade markers over time to allow units to spawn there later
 	{ 
-		if (_x find "mkr_ZAU_" > -1) then {
+		if (_x find "mkr_ZAU_" > -1 && {ZAU_FadeMarker}) then {
 			if ((_x find "mkr_ZAU_spawn_" > -1 || _x find "mkr_ZAU_tracker_" > -1) && markerAlpha _x > 0) then {
-				_x setMarkerAlphaLocal (markerAlpha _x - 0.001)
+				_x setMarkerAlphaLocal (markerAlpha _x - 0.01)
 			} else {
 				deleteMarker _x
 			};
@@ -150,7 +153,7 @@ while {ZAU_Loop} do {
 			
 			private _garrisonGroup = [_bMid, _side, _enemyTeam] call BIS_fnc_spawnGroup;
 			_garrisonGroup deleteGroupWhenEmpty true;
-			
+						
 			private _bpa = _bld buildingPos -1; 
 			
 			{
@@ -169,6 +172,11 @@ while {ZAU_Loop} do {
 			} foreach (units _garrisonGroup);
 
 			_garrisonGroup enableDynamicSimulation true;
+			
+			ZAU_Count = (missionNamespace getVariable ["ZAU_Count", 0]) + 1;
+			_garrisonGroup setGroupIdGlobal [format["ZAU_HOLD_%1", missionNamespace getVariable ["ZAU_Count", 0]]];
+			
+			sleep 1;
 		};
 			
 		// Add Patrol
@@ -182,7 +190,7 @@ while {ZAU_Loop} do {
 			private _patrolGroup = [_bMid, _side, _enemyTeam] call BIS_fnc_spawnGroup;
 			_patrolGroup deleteGroupWhenEmpty true;
 			_patrolGroup enableDynamicSimulation true;
-			
+						
 			if (random 1 > 0.3) then {
 				[_patrolGroup, getPos _bld, 100 + random 100] call BIS_fnc_taskPatrol;
 			};
@@ -199,6 +207,10 @@ while {ZAU_Loop} do {
 				_mrkr setMarkerColorLocal format["Color%1",_side];
 				_mrkr setMarkerTextLocal format["SP_%1_%2",_loopNo, _forEachIndex];
 			};
+			
+			ZAU_Count = (missionNamespace getVariable ["ZAU_Count", 0]) + 1;
+			_patrolGroup setGroupIdGlobal [format["ZAU_FREE_%1", missionNamespace getVariable ["ZAU_Count", 0]]];
+			
 			sleep 1;
 		};
 	} forEach _finalBuild;

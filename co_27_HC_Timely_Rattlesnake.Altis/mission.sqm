@@ -5,10 +5,10 @@ class EditorData
 	angleGridStep=0.2617994;
 	scaleGridStep=1;
 	autoGroupingDist=10;
-	toggles=1;
+	toggles=129;
 	class ItemIDProvider
 	{
-		nextID=12566;
+		nextID=12568;
 	};
 	class MarkerIDProvider
 	{
@@ -16,18 +16,18 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=129;
+		nextID=135;
 	};
 	class Camera
 	{
-		pos[]={18803.295,86.098457,17114.148};
-		dir[]={0.16877103,-0.52249253,0.83577383};
-		up[]={0.10342138,0.85264385,0.51215476};
-		aside[]={0.98021442,7.4505806e-09,-0.19793849};
+		pos[]={18811.881,31.804283,17224.461};
+		dir[]={0.61798054,-0.26482114,-0.74030459};
+		up[]={0.1697188,0.96428692,-0.2033132};
+		aside[]={-0.76770741,8.4057683e-07,-0.6408537};
 	};
 };
 binarizationWanted=0;
-sourceName="co_27_HC2_BLU_04";
+sourceName="co_27_HC_Timely_Rattlesnake";
 addons[]=
 {
 	"A3_Modules_F",
@@ -73,6 +73,14 @@ addons[]=
 	"A3_Supplies_F_Heli_CargoNets",
 	"A3_Weapons_F_Ammoboxes",
 	"A3_Modules_F_Intel",
+	"A3_Weapons_F_Rifles_MX_Black",
+	"A3_Weapons_F_Acc",
+	"A3_Weapons_F",
+	"A3_Weapons_F_Pistols_Pistol_Heavy_01",
+	"A3_Characters_F_Enoch_Facewear",
+	"A3_Characters_F_Enoch",
+	"A3_Weapons_F_Items",
+	"A3_Characters_F_Orange_Vests",
 	"A3_Soft_F_MRAP_01",
 	"A3_Soft_F_Exp_LSV_01",
 	"A3_Armor_F_Beta_APC_Wheeled_01",
@@ -83,7 +91,7 @@ class AddonsMetaData
 {
 	class List
 	{
-		items=30;
+		items=31;
 		class Item0
 		{
 			className="A3_Modules_F";
@@ -261,33 +269,40 @@ class AddonsMetaData
 		};
 		class Item25
 		{
+			className="A3_Characters_F_Enoch";
+			name="Arma 3 Contact Platform - Characters and Clothing";
+			author="Bohemia Interactive";
+			url="https://www.arma3.com";
+		};
+		class Item26
+		{
 			className="A3_Soft_F";
 			name="Arma 3 Alpha - Unarmored Land Vehicles";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item26
+		class Item27
 		{
 			className="A3_Soft_F_Exp";
 			name="Arma 3 Apex - Unarmored Land Vehicles";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item27
+		class Item28
 		{
 			className="A3_Armor_F_Beta";
 			name="Arma 3 Beta - Armored Land Vehicles";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item28
+		class Item29
 		{
 			className="A3_Soft_F_Beta";
 			name="Arma 3 Beta - Unarmored Land Vehicles";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item29
+		class Item30
 		{
 			className="A3_Armor_F_EPC";
 			name="Arma 3 Win Episode - Armored Land Vehicles";
@@ -303,7 +318,8 @@ dlcs[]=
 	"Mark",
 	"Tank",
 	"Expansion",
-	"Argo"
+	"Argo",
+	"Enoch"
 };
 randomSeed=889297;
 class ScenarioData
@@ -558,34 +574,34 @@ class Mission
 			dataType="Object";
 			class PositionInfo
 			{
-				position[]={18842.293,31.43059,17200.609};
+				position[]={18842.293,30.402534,17200.609};
 				angles[]={6.2245855,5.4103165,0.015998369};
 			};
 			side="Empty";
+			flags=4;
 			class Attributes
 			{
 				skill=0.2;
 			};
 			id=8942;
 			type="StorageBladder_02_water_forest_F";
-			atlOffset=1.0280552;
 		};
 		class Item11
 		{
 			dataType="Object";
 			class PositionInfo
 			{
-				position[]={18836.168,31.592371,17205.752};
+				position[]={18836.168,30.782278,17205.752};
 				angles[]={0.046631888,5.4086699,6.2325621};
 			};
 			side="Empty";
+			flags=4;
 			class Attributes
 			{
 				skill=0.2;
 			};
 			id=8943;
 			type="StorageBladder_02_water_forest_F";
-			atlOffset=0.81009293;
 		};
 		class Item12
 		{
@@ -712,17 +728,34 @@ class Mission
 			dataType="Object";
 			class PositionInfo
 			{
-				position[]={18805.408,30.648773,17193.533};
-				angles[]={0,4.8287954,0};
+				position[]={18805.408,30.274677,17193.533};
+				angles[]={6.2685208,4.8288026,0.077179179};
 			};
 			side="Empty";
+			flags=4;
 			class Attributes
 			{
 				skill=0.2;
 			};
 			id=8948;
 			type="CamoNet_BLUFOR_open_F";
-			atlOffset=0.37409592;
+			class CustomAttributes
+			{
+				class Attribute0
+				{
+					property="allowDamage";
+					expression="_this allowdamage _value;";
+					class Value
+					{
+						class data
+						{
+							singleType="BOOL";
+							value=0;
+						};
+					};
+				};
+				nAttributes=1;
+			};
 		};
 		class Item17
 		{
@@ -4721,7 +4754,7 @@ class Mission
 						class data
 						{
 							singleType="STRING";
-							value="Eliminate and collect the Intelligence from the NATO scientist.<br/><br/><img image='\A3\EditorPreviews_F\Data\CfgVehicles\O_officer_F.jpg' width='350'/><br/><br/>";
+							value="Eliminate and collect the Intelligence from the NATO scientist.<br/><br/><img image='\A3\EditorPreviews_F\Data\CfgVehicles\C_scientist_F.jpg' width='350'/><br/><br/>";
 						};
 					};
 				};
@@ -4873,20 +4906,83 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={18815.057,29.780304,17222.701};
-						angles[]={0,3.1936557,6.2826962};
+						position[]={18815.217,29.780525,17220.506};
+						angles[]={-0,3.1936557,6.2826972};
 					};
 					side="West";
-					flags=2;
+					flags=6;
 					class Attributes
 					{
 						init="this disableAI 'PATH'; if (local this) then { removeFromRemainsCollector [this]; this disableAI ""PATH""; (uniformContainer this) addItemCargoGlobal [selectRandom  [""Files"",""Files_diary"",""Files_researchNotes"",""DocumentsSecret"",""FileTopSecret"",""FilesSecret""], 1]; };";
 						name="MAN_1";
 						stance="Middle";
+						class Inventory
+						{
+							class primaryWeapon
+							{
+								name="arifle_MXC_Black_F";
+								optics="optic_Aco";
+								class primaryMuzzleMag
+								{
+									name="30Rnd_65x39_caseless_black_mag";
+									ammoLeft=30;
+								};
+							};
+							class handgun
+							{
+								name="hgun_Pistol_heavy_01_F";
+								optics="optic_MRD";
+								class primaryMuzzleMag
+								{
+									name="11Rnd_45ACP_Mag";
+									ammoLeft=11;
+								};
+							};
+							class uniform
+							{
+								typeName="U_C_CBRN_Suit_01_White_F";
+								isBackpack=0;
+								class MagazineCargo
+								{
+									items=2;
+									class Item0
+									{
+										name="Chemlight_green";
+										count=1;
+										ammoLeft=1;
+									};
+									class Item1
+									{
+										name="30Rnd_65x39_caseless_black_mag";
+										count=2;
+										ammoLeft=30;
+									};
+								};
+								class ItemCargo
+								{
+									items=1;
+									class Item0
+									{
+										name="FirstAidKit";
+										count=1;
+									};
+								};
+							};
+							class vest
+							{
+								typeName="V_Safety_orange_F";
+								isBackpack=0;
+							};
+							map="ItemMap";
+							compass="ItemCompass";
+							watch="ItemWatch";
+							radio="ItemRadio";
+							gps="ItemGPS";
+							goggles="G_AirPurifyingRespirator_02_black_F";
+						};
 					};
 					id=11432;
 					type="B_officer_F";
-					atlOffset=0.26600075;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -4923,7 +5019,6 @@ class Mission
 			{
 			};
 			id=11430;
-			atlOffset=0.26600075;
 		};
 		class Item108
 		{
