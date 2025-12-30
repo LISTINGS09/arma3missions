@@ -22,10 +22,10 @@ A3E_VAR_Side_Ind_Str = format["%1",A3E_VAR_Side_Ind];
 
 // Random array. Start position guard types around the prison
 a3e_arr_Escape_StartPositionGuardTypes = [
-	"I_L_Looter_Pistol_F",
-	"I_L_Looter_SG_F",
-	"I_L_Looter_Rifle_F",
-	"I_L_Looter_SMG_F"];
+	"I_E_Soldier_AR_F",
+	"I_E_Soldier_GL_F",
+	"I_E_Soldier_F",
+	"I_E_Soldier_lite_F"];
 
 // Prison backpack secondary weapon (and corresponding magazine type).
 a3e_arr_PrisonBackpackWeapons = [];
@@ -336,12 +336,12 @@ a3e_arr_Escape_InfantryTypes_Ind = [
 	,"I_E_Soldier_UAV_F"
 	,"I_E_soldier_UGV_02_Science_F"
 	,"I_E_soldier_UGV_02_Demining_F"
-	,"I_C_Soldier_Bandit_8_F"
-	,"I_C_Soldier_Bandit_6_F"
-	,"I_C_Soldier_Bandit_8_F"
-	,"I_C_Soldier_Bandit_8_F"
-	,"I_C_Soldier_Bandit_6_F"
-	,"I_C_Soldier_Bandit_6_F"];
+	,"I_E_Soldier_F"
+	,"I_E_Soldier_F"
+	,"I_E_Soldier_F"
+	,"I_E_Soldier_F"
+	,"I_E_Soldier_F"
+	,"I_E_Soldier_F"];
 	if(A3E_Param_UseDLCLaws==1) then {
 		a3e_arr_Escape_InfantryTypes pushback "I_E_soldier_Mine_F";
 		a3e_arr_Escape_InfantryTypes pushback "I_E_soldier_UAV_06_medical_F";
@@ -385,9 +385,6 @@ a3e_arr_Escape_ReinforcementTruck_vehicleClasses_Ind = [
 	"I_E_Offroad_01_covered_F"
 	,"I_E_Truck_02_F"
 	,"I_E_Van_02_transport_MP_F"];
-
-
-
 
 // Random array. Motorized search groups are sometimes sent to look for you. This array contains possible class definitions for the vehicles.
 a3e_arr_Escape_MotorizedSearchGroup_vehicleClasses = [
@@ -494,10 +491,12 @@ a3e_arr_Escape_AmmoDepot_ParkedVehicleClasses = [
 
 //Random array. Types of helicopters to spawn
 a3e_arr_O_attack_heli = [
-	"B_Heli_Light_01_dynamicLoadout_F"
-	,"B_Heli_Attack_01_dynamicLoadout_F"];
+	"I_E_EC_02_RF"
+	,"B_Heli_Attack_01_dynamicLoadout_F",
+	"B_T_VTOL_01_armed_F"];
 a3e_arr_O_transport_heli = [
-	"B_Heli_Transport_01_F"];
+	"B_Heli_Transport_01_F",
+	"B_Heli_EC_04_military_RF"];
 	if(A3E_Param_UseDLCHelis==1) then {
 	a3e_arr_O_transport_heli pushback "B_Heli_Transport_03_F";
 	a3e_arr_O_transport_heli pushback "B_Heli_Transport_03_unarmed_F";
@@ -506,7 +505,7 @@ a3e_arr_O_pilots = [
 	"B_W_Helipilot_F"
 	,"B_W_Helicrew_F"];
 a3e_arr_I_transport_heli = [
-	"I_E_Heli_light_03_dynamicLoadout_F"
+	"I_E_Heli_EC_01A_military_RF"
 	,"I_E_Heli_light_03_unarmed_F"];
 a3e_arr_I_pilots = [
 	"I_E_Helipilot_F"
@@ -805,9 +804,11 @@ a3e_arr_searchdrone = [
 // Two arrays for "Easy" and "Hard" parameter, both used on stadard setting
 //////////////////////////////////////////////////////////////////
 a3e_arr_searchChopperEasy = [
-	"I_E_Heli_light_03_unarmed_F"];
+	"I_E_Heli_light_03_unarmed_F",
+	"I_E_Heli_EC_01A_military_RF"];
 a3e_arr_searchChopperHard = [
-	"I_E_Heli_light_03_dynamicLoadout_F"];
+	"I_E_Heli_light_03_dynamicLoadout_F",
+	"I_E_EC_02_RF"];
 a3e_arr_searchChopper_pilot = [
 	"I_E_Helipilot_F"];
 a3e_arr_searchChopper_crew = [

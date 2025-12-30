@@ -1247,8 +1247,11 @@ a3e_arr_roadblocks_Veh_GUE = a3e_arr_Escape_RoadBlock_MannedVehicleTypes_Ind;
 //////////////////////////////////////////////////////////////////
 a3e_arr_AquaticPatrols = [
 	"O_Boat_Armed_01_hmg_F"
-	,"I_Boat_Armed_01_minigun_F"];
-
+	,"I_Boat_Armed_01_minigun_F"
+	,"O_Boat_Armed_01_hmg_F"
+	,"I_Boat_Armed_01_minigun_F"
+	,"EF_O_CombatBoat_HMG_OPF_T"];
+	
 //////////////////////////////////////////////////////////////////
 // fn_AmmoDepot
 // What kind of weapon boxes are spawned when the parameter "additional weapons" is activated
