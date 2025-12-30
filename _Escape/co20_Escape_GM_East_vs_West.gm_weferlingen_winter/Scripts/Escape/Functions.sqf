@@ -1,0 +1,546 @@
+drn_fnc_Escape_OnSpawnGeneralSoldierUnit = {
+	[_this] spawn A3E_fnc_onEnemySoldierSpawn;
+};
+
+drn_fnc_Escape_FindGoodPos = {
+	private ["_i", "_startPos", "_isOk", "_result", "_roadSegments", "_dummyObject"];
+    // Choose a random and flat position (for-loopen and markers are for test on new maps).
+    for [{_i = 0},  {_i < 1}, {_i = _i + 1}] do {
+        _isOk = false;
+        while {!_isOk} do {
+		
+			_startPos = [(getpos SouthWest select 0) + random (getpos NorthEast select 0),(getpos SouthWest select 1) + random (getpos NorthEast select 1)];
+
+            
+            //diag_log ("startPos == " + str _startPos);
+            _result = _startPos isFlatEmpty [5, 0, 0.25, 1, 0, false, objNull];
+            _roadSegments = _startPos nearRoads 30;
+			_buildings = _startPos nearObjects 30;
+            
+            if ((count _result > 0) && (count _roadSegments == 0) && (!surfaceIsWater _startPos) && (count _buildings == 0)) then {
+				_startPos = _result;
+                _dummyObject = "Land_Can_Rusty_F" createVehicleLocal _startPos;
+                
+                if (((nearestBuilding _dummyObject) distance _startPos) > 50) then {
+                    _isOk = true;
+                };
+                
+                deleteVehicle _dummyObject;
+            };
+        };
+        
+        //_marker = createMarker ["marker" + str _i, _startPos];
+        //_marker setMarkerType "Warning";
+    };
+    
+    _startPos
+};
+
+drn_fnc_Escape_FindAmmoDepotPositions = {
+    private ["_occupiedPositions"];
+    private ["_positions", "_i", "_j", "_tooCloseAnotherPos", "_pos", "_maxDistance", "_countNW", "_countNE", "_countSE", "_countSW", "_isOk"];
+    
+    _occupiedPositions = _this;
+    
+    _positions = [];
+    _i = 0;
+    _maxDistance = 1000;
+    
+    _countNW = 0;
+    _countNE = 0;
+    _countSE = 0;
+    _countSW = 0;
+    if(isNil("A3E_AmmoDepotCount")) then {
+		A3E_AmmoDepotCount = 8;
+	};
+    while {count _positions < A3E_AmmoDepotCount} do {
+        _isOk = false;
+        _j = 0;
+        
+        while {!_isOk} do {
+            _pos = call drn_fnc_Escape_FindGoodPos;
+            _isOk = true;
+            
+            if (count _positions < 16) then {
+                if (_pos select 0 <= ((getMarkerPos "center") select 0) && _pos select 1 > ((getMarkerPos "center") select 1)) then {
+                    if (_countNW < 5) then {
+                        _countNW = _countNW + 1;
+                    }
+                    else {
+                        _isOk = false;
+                    };
+                };
+                if (_pos select 0 > ((getMarkerPos "center") select 0) && _pos select 1 > ((getMarkerPos "center") select 1)) then {
+                    if (_countNE < 5) then {
+                        _countNE = _countNE + 1;
+                    }
+                    else {
+                        _isOk = false;
+                    };
+                };
+                if (_pos select 0 > ((getMarkerPos "center") select 0) && _pos select 1 <= ((getMarkerPos "center") select 1)) then {
+                    if (_countSE < 5) then {
+                        _countSE = _countSE + 1;
+                    }
+                    else {
+                        _isOk = false;
+                    };
+                };
+                if (_pos select 0 <= ((getMarkerPos "center") select 0) && _pos select 1 <= ((getMarkerPos "center") select 1)) then {
+                    if (_countSW < 5) then {
+                        _countSW = _countSW + 1;
+                    }
+                    else {
+                        _isOk = false;
+                    };
+                };
+            };
+            
+            _j = _j + 1;
+            if (_j > 100) then {
+                _isOk = true;
+            };
+        };
+        
+        _tooCloseAnotherPos = false;
+        {
+            if (_pos distance _x < _maxDistance) then {
+                _tooCloseAnotherPos = true;
+            };
+        } forEach _positions;
+        
+        if (!_tooCloseAnotherPos) then {
+            {
+                if (_pos distance _x < _maxDistance) then {
+                    _tooCloseAnotherPos = true;
+                };
+            } forEach _occupiedPositions;
+        };
+        
+        if (!_tooCloseAnotherPos) then {
+            _positions set [count _positions, _pos];
+        };
+        
+        _i = _i + 1;
+        if (_i > 100) exitWith {
+            _positions
+        };
+    };
+    
+    _positions
+};
+
+drn_fnc_Escape_AllPlayersOnStartPos = {
+    private ["_startPos"];
+    private ["_allPlayersAtStartPos"];
+    
+    _startPos = _this select 0;
+    
+    _allPlayersAtStartPos = true;
+    
+    {
+        if (_x distance _startPos > 30) exitWith {
+            _allPlayersAtStartPos = false;
+        };
+    } forEach call A3E_fnc_GetPlayers;
+    
+    _allPlayersAtStartPos
+};
+
+drn_fnc_Escape_CreateExtractionPointServer = {
+    private ["_extractionPointNo"];
+    
+    _extractionPointNo = _this select 0;
+    
+    if (isServer) then {
+        [_extractionPointNo] execVM "Scripts\Escape\CreateExtractionPoint.sqf";
+    }
+    else {
+        drn_EscapeExtractionEventArgs = [_extractionPointNo];
+        publicVariable "drn_EscapeExtractionEventArgs";
+    };
+};
+    
+if (isServer) then {
+    "drn_EscapeExtractionEventArgs" addPublicVariableEventHandler {
+        drn_EscapeExtractionEventArgs call drn_fnc_Escape_CreateExtractionPointServer;
+    };
+};
+
+drn_Escape_AskForTimeSynchronizationEventArgs = [];
+drn_Escape_SynchronizeTimeEventArgs = [];
+
+drn_fnc_Escape_SynchronizeTimeLocal = {
+    setDate _this;
+};
+
+drn_fnc_Escape_AskForTimeSynchronization = {
+    drn_Escape_AskForTimeSynchronizationEventArgs = [true];
+    publicVariable "drn_Escape_AskForTimeSynchronizationEventArgs";
+};
+
+"drn_Escape_SynchronizeTimeEventArgs" addPublicVariableEventHandler {
+    drn_Escape_SynchronizeTimeEventArgs call drn_fnc_Escape_SynchronizeTimeLocal;
+};
+
+if (isServer) then {
+    drn_fnc_Escape_SynchronizeTimeAllClients = {
+        drn_Escape_SynchronizeTimeEventArgs = + date;
+        publicVariable "drn_Escape_SynchronizeTimeEventArgs";
+    };
+
+    "drn_Escape_AskForTimeSynchronizationEventArgs" addPublicVariableEventHandler {
+        call drn_fnc_Escape_SynchronizeTimeAllClients;
+    };
+};
+
+drn_fnc_Escape_TrafficSearch = {
+    private ["_vehicle", "_referenceMarker", "_distanceFromReferenceMarker", "_minTimeBetweenStopsSek", "_maxTimeBetweenStopsSek"];
+    private ["_gunner", "_commander", "_angle", "_i", "_startSearchTime", "_searchTime", "_glanceTime", "_startGlanceTime", "_turnDir", "_startTime", "_waitTime", "_detectedEnemies"];
+    private ["_fnc_LookInDirection", "_fnc_hasDetectedEnemies"];
+    
+    _vehicle = _this select 0;
+    _referenceMarker = drn_searchAreaMarkerName;
+    _distanceFromReferenceMarker = 1000;
+    _minTimeBetweenStopsSek = 30;
+    _maxTimeBetweenStopsSek = 180;
+    
+    scopeName "mainScope";
+    _gunner = gunner _vehicle;
+    _commander = commander _vehicle;
+    _angle = 0;
+    
+    {
+        _x call drn_fnc_Escape_OnSpawnGeneralSoldierUnit;
+    } forEach units group _vehicle;
+    
+    if ((isNull _gunner) && (isNull _commander)) exitWith {};
+    
+    _fnc_LookInDirection = {
+        private ["_unit", "_dir"];
+        private ["_x", "_y", "_pos"];
+        
+        _unit = _this select 0;
+        _dir = _this select 1;
+        
+        _x = ((getPos _unit) select 0) - (1000 * cos (_dir + 90));
+        _y = ((getPos _unit) select 1) + (1000 * sin (_dir + 90));
+        _pos = [_x, _y, 0];
+        
+        _unit doWatch _pos;
+    };
+    
+    _fnc_hasDetectedEnemies = {       
+        private _unit = _this select 0;
+        
+        private _nearestEnemy = _unit findNearestEnemy (getPos _unit);
+        private _result = false;
+        
+        if (!isNull _nearestEnemy) then {
+            _result = true;
+        };
+        
+        _result
+    };
+    
+    sleep (_minTimeBetweenStopsSek + random (_maxTimeBetweenStopsSek - _minTimeBetweenStopsSek));
+    _detectedEnemies = false;
+    
+    while {damage _vehicle < 0.1 && !_detectedEnemies} do {        
+        private _makeSearchStop = true;
+        if (_referenceMarker != "") then {
+            if ((getMarkerPos _referenceMarker) distance _vehicle > _distanceFromReferenceMarker) then {
+                _makeSearchStop = false;
+            };
+        };
+        
+        if (_makeSearchStop) then {
+            _startSearchTime = time;
+            _searchTime = 15 + random 30;
+            _turnDir = selectRandom [1, -1];
+            _angle = getDir _vehicle;
+            while {time < _startSearchTime + _searchTime} do {
+                _glanceTime = 1 + random 6;
+                _startGlanceTime = time;
+                _i = 0;
+                while {time < _startGlanceTime + _glanceTime} do {
+                    if (!isNull _gunner) then {
+                        if ([_gunner] call _fnc_hasDetectedEnemies) then {
+                            _detectedEnemies = true;
+                            breakTo "mainScope";
+                        };
+                        if (_i == 0) then {
+                            [_gunner, _angle] call _fnc_LookInDirection;
+                        };
+                    };
+                    if (!isNull _commander) then {
+                        if ([_commander] call _fnc_hasDetectedEnemies) then {
+                            _detectedEnemies = true;
+                            breakTo "mainScope";
+                        };
+                        if (_i == 0) then {
+                            [_commander, _angle] call _fnc_LookInDirection;
+                        };
+                    };
+                    
+                    _vehicle limitSpeed 0;
+                    sleep 0.05;
+                    _i = _i + 1;
+                };
+                
+                _angle = _angle + (10 + random 120) * _turnDir;
+                if (_angle > 360) then {
+                    _angle = _angle - 360;
+                };
+            };
+            
+            if (!isNull _gunner) then {
+                [_gunner, getDir _vehicle] call _fnc_LookInDirection;
+            };
+            if (!isNull _commander) then {
+                [_commander, getDir _vehicle] call _fnc_LookInDirection;
+            };
+            
+            _startTime = time;
+            _waitTime = 2;
+            while {time < _startTime + _waitTime} do {
+                _vehicle limitSpeed 0;
+                sleep 0.05;
+            };
+
+            if (!isNull _gunner) then {
+                if ([_gunner] call _fnc_hasDetectedEnemies) then {
+                    _detectedEnemies = true;
+                    breakTo "mainScope";
+                };
+            };
+            if (!isNull _commander) then {
+                if ([_commander] call _fnc_hasDetectedEnemies) then {
+                    _detectedEnemies = true;
+                    breakTo "mainScope";
+                };
+            };
+            
+            if (!isNull _gunner) then {
+                _gunner doWatch objNull;
+            };
+            if (!isNull _commander) then {
+                _commander doWatch objNull;
+            };
+            
+            _startTime = time;
+            _waitTime = 2;
+            while {time < _startTime + _waitTime} do {
+                _vehicle limitSpeed 0;
+                sleep 0.05;
+            };
+        };
+        
+        _startTime = time;
+        _waitTime = _minTimeBetweenStopsSek + random (_maxTimeBetweenStopsSek - _minTimeBetweenStopsSek);
+        while {time < _startTime + _waitTime} do {
+            if (!isNull _gunner) then {
+                if ([_gunner] call _fnc_hasDetectedEnemies) then {
+                    _detectedEnemies = true;
+                    breakTo "mainScope";
+                };
+            };
+            if (!isNull _commander) then {
+                if ([_commander] call _fnc_hasDetectedEnemies) then {
+                    _detectedEnemies = true;
+                    breakTo "mainScope";
+                };
+            };
+            
+            sleep 5;
+        };
+    };
+    
+    if (_detectedEnemies) then {
+        (group _vehicle) setBehaviour "COMBAT";
+        (group _vehicle) setCombatMode "RED";
+    };
+};
+
+
+drn_fnc_Escape_AddRemoveComCenArmor = {   
+    private _comCenArmorIndex = _this select 0;
+    
+    private _comCenArmorItem = a3e_arr_Escape_ComCenArmors select _comCenArmorIndex;
+    
+    private _pos = _comCenArmorItem select 0;
+    private _armorClasses = _comCenArmorItem select 1;
+    private _armorObjects = _comCenArmorItem select 2;
+    
+    if (count _armorObjects == 0) then {        
+        private _spawnedArmors = [];
+        
+        {
+            private _roadSegments = (_pos nearRoads 250);
+            if (count _roadSegments == 0) then {
+				_roadSegments = (_pos nearRoads 500);
+			};
+			if (count _roadSegments == 0) then {
+				_roadSegments = (_pos nearRoads 1000);
+			};
+            private _spawnPos = getPos (selectRandom _roadSegments);
+            private _result = [_spawnPos, 0, _x, A3E_VAR_Side_Opfor] call BIS_fnc_spawnVehicle;
+            private _vehicle = _result select 0;
+			[_vehicle] call a3e_fnc_onVehicleSpawn;
+            private _group = _result select 2;
+            
+            {
+                _x call drn_fnc_Escape_OnSpawnGeneralSoldierUnit;
+            } forEach (_result select 1);
+            
+            private _waypoint = _group addWaypoint [_pos, 70];
+            _waypoint setWaypointType "GUARD";
+            _waypoint setWaypointBehaviour "AWARE";
+            _waypoint setWaypointCombatMode "YELLOW";
+            
+            _spawnedArmors set [count _spawnedArmors, _vehicle];
+        } forEach _armorClasses;
+        
+        _comCenArmorItem set [2, _spawnedArmors];
+    } else {
+        private _players = [] call A3E_fnc_getPlayers;
+        
+		 {
+			private _vehicle = _x;
+			if(count((crew _vehicle) arrayIntersect _players)==0 && ({(_x distance _vehicle)<500} count _players)==0) then {
+				private _group = group _vehicle;
+				
+				{
+					deleteVehicle _x;
+				} forEach crew _vehicle;
+				
+				deleteVehicle _vehicle;
+			};
+		} forEach _armorObjects;
+
+        _comCenArmorItem set [2, []];
+    };
+};
+
+drn_fnc_Escape_InitializeComCenArmor = {
+    params ["_comCenPositions","_enemySpawnDistance","_enemyFrequency"];
+        
+    a3e_arr_Escape_ComCenArmors = [];
+
+    {
+        private _pos = _x;
+        
+        switch (_enemyFrequency) do {
+            case 1: { a3e_arr_Escape_ComCenArmors pushBack [_pos, [selectRandom a3e_arr_ComCenDefence_lightArmorClasses], []] };
+            case 2: { a3e_arr_Escape_ComCenArmors pushBack [_pos, [selectRandom a3e_arr_ComCenDefence_heavyArmorClasses], []] };
+            default { a3e_arr_Escape_ComCenArmors pushBack [_pos, [selectRandom a3e_arr_ComCenDefence_lightArmorClasses, selectRandom a3e_arr_ComCenDefence_heavyArmorClasses], []] };
+        };
+        
+        private _trigger = createTrigger["EmptyDetector", _pos, false];
+		_trigger setTriggerInterval 2;
+        _trigger setTriggerArea[_enemySpawnDistance + 500, _enemySpawnDistance + 500, 0, false];
+        _trigger setTriggerActivation["ANYPLAYER", "PRESENT", true];
+        _trigger setTriggerTimeout [2, 2, 2, true];
+        _trigger setTriggerStatements["this", "_nil = [" + str _forEachIndex + "] spawn drn_fnc_Escape_AddRemoveComCenArmor;", "_nil = [" + str _forEachIndex + "] spawn drn_fnc_Escape_AddRemoveComCenArmor;"];	
+    } forEach _comCenPositions;
+};
+
+drn_fnc_Escape_PopulateVehicle = {
+    private ["_vehicle", "_side", "_unitTypes", "_enemyFrequency"];
+    private ["_group", "_maxSoldiersCount", "_soldierCount", "_continue", "_unitType", "_insurgentSoldier"];
+    
+    _vehicle = _this select 0;
+    _side = _this select 1;
+    _unitTypes = _this select 2;
+    if (count _this > 3) then { _enemyFrequency = _this select 3; } else { _enemyFrequency = 3; };
+    
+    _maxSoldiersCount = _enemyFrequency + 3 + floor random (4 * _enemyFrequency);
+    _group = createGroup [_side, true];
+    
+    _soldierCount = 0;
+    
+    // Driver
+    _continue = true;
+    while {_continue && (_soldierCount <= _maxSoldiersCount)} do {
+        _unitType = selectRandom _unitTypes;
+        _insurgentSoldier = _group createUnit [_unitType, [0,0,0], [], 0, "FORM"];
+        
+        _insurgentSoldier setRank "LIEUTENANT";
+        _insurgentSoldier moveInDriver _vehicle;
+        
+        if (vehicle _insurgentSoldier != _insurgentSoldier) then {
+            _insurgentSoldier assignAsDriver _vehicle;
+            _soldierCount + _soldierCount + 1;
+        }
+        else {
+            deleteVehicle _insurgentSoldier;
+            _continue = false;
+        };
+    };
+    
+    // Gunner
+    _continue = true;
+    while {_continue && _soldierCount <= _maxSoldiersCount} do {
+        _unitType = selectRandom _unitTypes;
+        _insurgentSoldier = _group createUnit [_unitType, [0,0,0], [], 0, "FORM"];
+        
+        _insurgentSoldier setRank "LIEUTENANT";
+        _insurgentSoldier moveInGunner _vehicle;
+        
+        if (vehicle _insurgentSoldier != _insurgentSoldier) then {
+            _insurgentSoldier assignAsGunner _vehicle;
+            _soldierCount + _soldierCount + 1;
+        }
+        else {
+            deleteVehicle _insurgentSoldier;
+            _continue = false;
+        };
+    };
+    
+    // Commander
+    _continue = true;
+    while {_continue && _soldierCount <= _maxSoldiersCount} do {
+        _unitType = selectRandom _unitTypes;
+        _insurgentSoldier = _group createUnit [_unitType, [0,0,0], [], 0, "FORM"];
+        
+        _insurgentSoldier setRank "LIEUTENANT";
+        _insurgentSoldier moveInCommander _vehicle;
+        
+        if (vehicle _insurgentSoldier != _insurgentSoldier) then {
+            _insurgentSoldier assignAsCommander _vehicle;
+            _soldierCount + _soldierCount + 1;
+        }
+        else {
+            deleteVehicle _insurgentSoldier;
+            _continue = false;
+        };
+    };
+    
+    // Cargo
+    _continue = true;
+    while {_continue && _soldierCount <= _maxSoldiersCount} do {
+        _unitType = selectRandom _unitTypes;
+        _insurgentSoldier = _group createUnit [_unitType, [0,0,0], [], 0, "FORM"];
+        
+        _insurgentSoldier setRank "LIEUTENANT";
+        _insurgentSoldier moveInCargo _vehicle;
+        
+        if (vehicle _insurgentSoldier != _insurgentSoldier) then {
+            _insurgentSoldier assignAsCargo _vehicle;
+            _soldierCount + _soldierCount + 1;
+        }
+        else {
+            deleteVehicle _insurgentSoldier;
+            _continue = false;
+        };
+    };
+    
+    _group
+};
+
+if (isServer) then {
+    a3e_var_Escape_FunctionsInitializedOnServer = true;
+    publicVariable "a3e_var_Escape_FunctionsInitializedOnServer";
+};
+
+

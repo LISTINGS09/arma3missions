@@ -1,0 +1,236 @@
+allowFunctionsLog = 1;
+respawnDelay = 60;
+respawn = "INSTANT";
+respawnTemplates[] = {"Counter"};
+respawnOnStart = -1;
+disabledAI = 0;
+
+#include "include\defines.hpp"
+#include "f\common\controls.hpp"
+
+// Mission Header
+class Header
+{
+  gameType = Escape;
+  minPlayers = 1;
+  maxPlayers = 20;
+};
+
+OnLoadMissionTime = FALSE;
+dev = "NeoArmageddon and Scruffy and 26K";
+author = "NeoArmageddon and Scruffy and 26K";
+overviewPicture = "a3\Missions_F_Gamma\data\img\MP_COOP_m03_overview_CA.paa";
+loadScreen = "escape_banner.paa"; 
+
+EscapeIsland = ISLAND;
+EscapeMod = MOD;
+EscapeVersion = VERSION;
+EscapeRelease = RELEASE;
+cba_settings_hasSettingsFile = 1;
+
+class Extended_PreInit_EventHandlers {
+    class a3e {
+        init = "call compile preprocessFileLineNumbers 'XEH_preInit.sqf'";
+    };
+};
+
+enableDebugConsole[] = {
+	"76561197970695190",	// 26K
+  	"76561198050565601",	// Terox
+	"76561198014463952",	// Ashley
+  	"76561197995508825",	// Lucius
+	"76561198104935105", 	// Murray122
+	"76561198059250585",	// Mathers
+  	"76561198054866659",	// Rory
+  	"76561197971815132",	// Stealthy
+	"76561197991081257",	// Wombat
+	"76561197975927028",    // Eagle
+	"76561198060520924",    // Onenan
+	"76561198128058770",    // Ghost
+	"76561198006820974",    // Ben
+	"76561198010911645"		//Striker
+};
+allowFunctionsRecompile = 1;
+
+corpseLimit = 30;
+corpseRemovalMinTime = 600;
+corpseRemovalMaxTime = 1800; //seconds
+
+wreckLimit = 10;
+wreckRemovalMinTime = 600; //seconds
+wreckRemovalMaxTime = 1800; //seconds
+
+///////////////////////////////////////////////////////////////////////////////////////////
+class CfgDebriefing
+{  
+    class End1
+    {
+        title = $STR_A3E_dbrf_failed;
+        subtitle = $STR_A3E_dbrf_everybodyDead_subtitle;
+        description = $STR_A3E_dbrf_everybodyDead_description;
+        pictureBackground = "";
+    };
+    class End2
+    {
+        title = $STR_A3E_dbrf_successful;
+        subtitle = "";
+        description = $STR_A3E_dbrf_successful_description;
+        pictureBackground = "";
+    };
+	class End3
+    {
+        title = $STR_A3E_dbrf_failed;
+        subtitle = $STR_A3E_dbrf_leftBehind_subtitle;
+        description = $STR_A3E_dbrf_leftBehind_description;
+        pictureBackground = "";
+    };
+	class End4
+    {
+        title = $STR_A3E_dbrf_successful;
+        subtitle = "";
+        description = $STR_A3E_dbrf_courtmartial_description;
+        pictureBackground = "";
+    };
+};
+class CfgDebriefingSections
+{
+	class A3EStatistics
+	{
+		title = "Statistics";
+		variable = "A3E_EndStatistics";
+	};
+};
+
+#include "include\params.hpp"
+#include "include\functions.hpp"
+
+#include "Scripts\outlw_magRepack\MagRepack_config.hpp"
+
+
+class CfgRemoteExec
+{        
+       // List of script functions allowed to be sent from client via remoteExec
+       class Functions
+       {
+               // State of remoteExec: 0-turned off, 1-turned on, taking whitelist into account, 2-turned on, however, ignoring whitelists (default because of backward compatibility)
+               mode = 2;
+               // Ability to send jip messages: 0-disabled, 1-enabled (default)
+               jip = 1;
+			   class a3e_fnc_initPlayer { allowedTargets=2; jip=1; };
+       };        
+       // List of script commands allowed to be sent from client via remoteExec
+       class Commands
+       {
+              class moveInAny { allowedTargets=0; jip=0; }; // can target anyone, sending jip is turned off (overrides settings in the Commands class)
+	};
+};
+
+class RscTitles {
+	titles[] = {HSC_View}; 
+	class HSC_View {
+			idd = 620000;
+			duration = 15000;
+			name = $STR_A3E_hindsightCam_title;
+			onLoad = "uiNamespace setVariable ['ATHSC_View', _this select 0]";
+			onUnload = "uiNamespace setVariable ['ATHSC_View', displayNull]";
+
+		   class controlsBackground {
+				class Rsc_MouseArea {
+					idc = 170001;
+					style = ST_MULTI;
+					
+					type = CT_STATIC;
+				
+					shadow = 1;
+					colorShadow[] = {0,0,0,0.5};
+					font = "PuristaMedium";
+					SizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
+					colorText[] = {1,1,1,1.0};
+					colorBackground[] = {0,0,0,0};
+					linespacing = 1;
+					x = "safezoneX";
+					y = "safezoneY";
+					w = "safezoneW";
+					h = "safezoneH";
+
+					text = "";
+					onMouseMoving = "";
+					onMouseEnter = "";
+					onMouseExit = "";
+					onMouseZChanged = "";
+					onKeyDown = "systemChat str _this;";
+				};
+			};
+			
+			class controls {
+				class Rsc_TargetText {
+					idc = 170002;
+					text = $STR_A3E_hindsightCam_unconscious;
+					type = 13;
+					style = 2;
+					  
+					x = "SafeZoneX + (SafeZoneW * 0.3)";
+					y = "SafeZoneY + (SafezoneH * 0.8)";
+					w = "(SafeZoneW) * 0.4";
+					h = "SafezoneH * 0.1";  
+					  
+					  class Attributes {
+						font = "TahomaB";
+						color = "#000000";
+						align = "center";
+						valign = "middle";
+						shadow = false;
+						shadowColor = "#ff0000";
+						size = "2";
+					};
+					shadow = 2;
+					font = "RobotoCondensedBold";
+					colorText[] = {1, 1, 1, 1};
+					Size = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.9)";
+					SizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.9)";
+					colorBackground[] = {0, 0, 0, 0};
+				};
+			class Rsc_HelpText {
+					idc = -1;
+					text = $STR_A3E_hindsightCam_helpText;
+					type = 13;
+					style = 0;
+					  
+					x = "SafeZoneX + (SafeZoneW * 0.02)";
+					y = "SafeZoneY + (SafezoneH * 0.85)";
+					w = "(SafeZoneW) * 0.2";
+					h = "SafezoneH * 0.15";  
+					  
+					class Attributes {
+						font = "TahomaB";
+						color = "#000000";
+						align = "center";
+						valign = "middle";
+						shadow = false;
+						shadowColor = "#ff0000";
+						size = "2";
+					};
+					shadow = 2;
+					font = "RobotoCondensedBold";
+					colorText[] = {1, 1, 1, 1};
+					Size = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.4)";
+					SizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.4)";
+					colorBackground[] = {0, 0, 0, 0};
+				};
+			};
+	};
+};
+class CfgCommands {
+   allowedHTMLLoadURIs[] += {
+      "http://escape.anzp.de/track.php*"
+   };
+};
+class CfgLeaflets
+{
+	class Guer // Configuration for 1Rnd_Leaflets_Guer_F
+	{
+		text = $STR_A3E_leaflet_text; // Text shown when previewing the leaflet full-screen. Ideally should be localized, so even player who cannot read the image can get the information
+		texture = "leaflet.paa"; // Leaflet texture shown when previewing the leaflet full-screen
+		//model = "myLeaflet.p3d"; // In-flight model. Generic white leaflet is used when not defined.
+	};
+};

@@ -1,0 +1,59 @@
+params["_pos"];
+
+private _possibleVehicles = missionNameSpace getVariable ["a3e_arr_Escape_MilitaryTraffic_CivilianVehicleClasses",[]];
+
+
+if(count(_possibleVehicles) == 0) exitWith {
+	["No civilian vehicle defined.",["Spawning","CivilianCommuters"]] call a3e_fnc_log;
+};
+
+private _vehicleType = selectRandom _possibleVehicles;
+
+private _road = roadAt _pos;
+private _direction = 0;
+if(!isNull _road) then {
+	_direction = getdir _road;
+};
+
+["Spawning vehicle.",["Spawning","CivilianCommuters"],[_pos, _direction, _vehicleType, civilian]] call a3e_fnc_log;
+private _result = [(_pos getPos [random 25, random 360]), _direction, _vehicleType, civilian] call BIS_fnc_spawnVehicle;
+
+private _vehicle = _result select 0;
+
+[_vehicle] call a3e_fnc_onVehicleSpawn;
+
+private _vehiclesCrew = _result select 1;
+private _group = _result select 2;
+
+[_group] call A3E_fnc_onCivilianGroupSpawn;
+
+{[_x] call A3E_fnc_onCivilianSpawn;} forEach units _group;
+
+clearitemcargoglobal _vehicle;
+clearWeaponCargoGlobal _vehicle;
+clearMagazineCargoGlobal _vehicle;			
+
+if (random 100 < 20) then {
+	private ["_weaponItem"];
+	
+	_weaponItem = selectRandom a3e_arr_CivilianCarWeapons;
+	
+	private _weapon = (_weaponItem select 0);
+	private _magazine = (_weaponItem select 1);
+	
+	if (_weapon isEqualType "") then { _vehicle addWeaponCargoGlobal [_weapon, 1]; };
+	if (_magazine isEqualType "") then { _vehicle addMagazineCargoGlobal [_magazine, _weaponItem select 2]; };
+};	
+if (random 100 < 80) then {
+   _vehicle addItemCargoglobal ["firstaidkit", 3];	
+};
+if (random 100 < 80) then {
+   _vehicle addMagazineCargoglobal ["smokeshellRed", 2];	
+};
+if (random 100 < 80) then {
+   _vehicle addMagazineCargoglobal ["Chemlight_green", 5];	
+};
+
+["Created Civilian Vehicle.",["Spawning","CivilianCommuters"],[_vehicleType]] call a3e_fnc_log;
+
+_group

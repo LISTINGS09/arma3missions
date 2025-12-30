@@ -16,14 +16,14 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=589;
+		nextID=610;
 	};
 	class Camera
 	{
-		pos[]={3702.9819,193.17238,2882.1794};
-		dir[]={-0.69395357,-0.60763717,0.38627148};
-		up[]={-0.53092945,0.79421479,0.29552826};
-		aside[]={0.48635647,1.4901161e-08,0.87376064};
+		pos[]={3722.2971,211.48468,2855.1799};
+		dir[]={-0.76735145,-0.51371634,0.38376349};
+		up[]={-0.45946303,0.85795736,0.22978419};
+		aside[]={0.44729584,3.2130629e-08,0.8943876};
 	};
 };
 binarizationWanted=0;
@@ -296,6 +296,8 @@ randomSeed=8531197;
 class ScenarioData
 {
 	author="2600K";
+	overviewText="Secure a Camp Maxwell and a CSAT Transport Truck";
+	onLoadMission="Secure a Camp Maxwell and a CSAT Transport Truck";
 	disabledAI=1;
 	class Header
 	{
@@ -2903,7 +2905,7 @@ class Mission
 					};
 					id=2719;
 					type="O_Soldier_SL_F";
-					atlOffset=1.3177528;
+					atlOffset=1.317749;
 				};
 				class Item1
 				{
@@ -2922,7 +2924,6 @@ class Mission
 					};
 					id=2720;
 					type="O_Soldier_F";
-					atlOffset=3.8146973e-06;
 				};
 				class Item2
 				{
@@ -2941,6 +2942,7 @@ class Mission
 					};
 					id=2721;
 					type="O_Soldier_LAT_F";
+					atlOffset=-3.8146973e-06;
 				};
 				class Item3
 				{
@@ -2959,6 +2961,7 @@ class Mission
 					};
 					id=2722;
 					type="O_soldier_M_F";
+					atlOffset=-3.8146973e-06;
 				};
 				class Item4
 				{
@@ -2976,7 +2979,7 @@ class Mission
 					};
 					id=2723;
 					type="O_Soldier_TL_F";
-					atlOffset=-3.8146973e-06;
+					atlOffset=-7.6293945e-06;
 				};
 				class Item5
 				{
@@ -2996,6 +2999,7 @@ class Mission
 					};
 					id=2724;
 					type="O_Soldier_AR_F";
+					atlOffset=-3.8146973e-06;
 				};
 				class Item6
 				{
@@ -3013,6 +3017,7 @@ class Mission
 					};
 					id=2725;
 					type="O_Soldier_A_F";
+					atlOffset=-3.8146973e-06;
 				};
 				class Item7
 				{
@@ -3031,6 +3036,7 @@ class Mission
 					};
 					id=2726;
 					type="O_medic_F";
+					atlOffset=-3.8146973e-06;
 				};
 			};
 			class Attributes
@@ -3041,7 +3047,7 @@ class Mission
 				dynamicSimulation=1;
 			};
 			id=2718;
-			atlOffset=1.3177528;
+			atlOffset=1.317749;
 		};
 		class Item102
 		{
@@ -6289,7 +6295,7 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={877.34521,1.7542984,2598.9421};
+						position[]={1922.9749,5.2239838,5384.4727};
 						angles[]={6.2806959,1.4534361,0.0075011365};
 					};
 					side="West";
@@ -6342,7 +6348,7 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={877.34521,1.7542984,2598.9421};
+						position[]={1922.9749,5.2239838,5384.4727};
 						angles[]={6.2806959,1.4534361,0.0075011365};
 					};
 					side="West";
@@ -6362,7 +6368,7 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={882.58069,1.1108062,2530.813};
+						position[]={1922.9749,5.2239838,5384.4727};
 						angles[]={6.2806959,1.4534361,0.0075011365};
 					};
 					side="West";
@@ -6399,7 +6405,7 @@ class Mission
 						class CustomData
 						{
 							role=2;
-							turretPath[]={0,0};
+							turretPath[]={0};
 						};
 					};
 					class Item1
@@ -6410,7 +6416,7 @@ class Mission
 						class CustomData
 						{
 							role=2;
-							turretPath[]={0};
+							turretPath[]={0,0};
 						};
 					};
 					class Item2
@@ -6437,7 +6443,7 @@ class Mission
 				angles[]={6.2806959,1.4534361,0.0075011365};
 			};
 			side="West";
-			flags=6;
+			flags=4;
 			class Attributes
 			{
 				init="[""v_ifv"",this,west] call f_fnc_assignGear; this setPilotLight true;";
