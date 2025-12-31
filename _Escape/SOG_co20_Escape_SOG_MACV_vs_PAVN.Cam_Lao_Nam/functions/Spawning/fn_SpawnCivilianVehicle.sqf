@@ -16,7 +16,7 @@ if(!isNull _road) then {
 };
 
 ["Spawning vehicle.",["Spawning","CivilianCommuters"],[_pos, _direction, _vehicleType, civilian]] call a3e_fnc_log;
-private _result = [_pos, _direction, _vehicleType, civilian] call BIS_fnc_spawnVehicle;
+private _result = [(_pos getPos [random 25, random 360]), _direction, _vehicleType, civilian] call BIS_fnc_spawnVehicle;
 
 private _vehicle = _result select 0;
 
@@ -38,8 +38,11 @@ if (random 100 < 20) then {
 	
 	_weaponItem = selectRandom a3e_arr_CivilianCarWeapons;
 	
-	_vehicle addWeaponCargoGlobal [_weaponItem select 0, 1];
-	_vehicle addMagazineCargoGlobal [_weaponItem select 1, _weaponItem select 2];
+	private _weapon = (_weaponItem select 0);
+	private _magazine = (_weaponItem select 1);
+	
+	if (_weapon isEqualType "") then { _vehicle addWeaponCargoGlobal [_weapon, 1]; };
+	if (_magazine isEqualType "") then { _vehicle addMagazineCargoGlobal [_magazine, _weaponItem select 2]; };
 };	
 if (random 100 < 80) then {
    _vehicle addItemCargoglobal ["firstaidkit", 3];	

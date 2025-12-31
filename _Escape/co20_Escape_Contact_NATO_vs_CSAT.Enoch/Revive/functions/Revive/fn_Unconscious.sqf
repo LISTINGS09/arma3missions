@@ -7,7 +7,7 @@ _unit setvariable ["ATR_UnconsciousInVehicle",_inVehicle];
 
 if(!_inVehicle && !_instant) then {
 	if(isWeaponDeployed _unit) then {
-		_player setPos (_player modelToWorld [0,0,0]);
+		_unit setPos (_unit modelToWorld [0,0,0]);
 	};
 	_ragdoll = [_unit] spawn ATR_FNC_ragdoll;
 } else {
